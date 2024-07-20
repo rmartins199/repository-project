@@ -1,5 +1,9 @@
-Em desenvolvimento!
+# Repositório de conteúdos da licenciatura em TIWM
 
+O objetivo do Repositório de conteúdos da licenciatura em TIWM (Instituto Politécnico da Maia) é disponibilizar aos docentes uma ferramenta colaborativa onde podem ser colocados trabalhos (enunciados) as suas correções ou simplesmente enunciados de forma a construir um portfólio do curso. Podem ser disponibilizados trabalhos realizados por alunos que tenham interesse para a UC em causa por serem exemplos de boas práticas ou más práticas.
+
+## Estrutura
+```bash
 # /repository-project
 │
 ├── /includes
