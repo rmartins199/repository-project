@@ -1,0 +1,70 @@
+/** CSS PERSONALIZADO PARA REPOSITORIO TIWM */
+
+/** Header e Footer */
+.imgheader{
+	background-image: url("../image/img_header.png");
+	min-height: 100px;
+	border-bottom-left-radius: 12px;
+	border-bottom-right-radius: 12px;
+}
+
+.imgfooter {
+	background: #343a40;
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+}
+
+/* Edição de botões */
+
+.btn{
+	text-shadow: 2px 2px 4px #000000;
+	border-radius: 12px;
+	background: #343a40;
+	margin: 3px;
+}
+
+.btn:hover {
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+	background: #6c757d;
+	cursor: pointer;
+}
+
+/* CSS de página coleções */
+
+.vertical-center {
+  	min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  	min-height: 50vh; /* These two lines are counted as one :-)       */
+
+  	display: flex;
+  	align-items: center;
+}
+
+.maincsslogin{
+	margin-top: 20px;
+	margin-bottom: 5px;
+}
+
+section {
+  	display: none;
+}
+
+section:target {
+  	display: block;
+}
+
+/*Formulario em implementação*/
+
+.rowregister {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.btn-register {
+	margin-top: 25px;
+}
+
+/* Pagina de publicação */
+
+.table {
+	border: 1px solid;
+}
