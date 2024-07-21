@@ -4,12 +4,12 @@ require_once 'functions/config_session.inc.php';
 
 // Função para carregar a página solicitada
 function loadPage($page) {
-    $allowed_pages = ['home', 'login', 'registration', 'collections', 'dateissued', 'author', 'type', 'logged'];
+    $allowed_pages = ['home', 'login', 'registration', 'collections', 'dateissued', 'author', 'type', 'logged', 'publish'];
     if (in_array($page, $allowed_pages)) {
         include __DIR__ . '/includes/' . $page . '.php';
     } else {
         echo "<h2>Página não encontrada</h2>";
-        echo "<p>A página que você está procurando não existe.</p>";
+        echo "<p>A página que procura não existe.</p>";
     }
 }
 
