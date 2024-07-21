@@ -3,7 +3,8 @@ require_once 'functions/config_session.inc.php';
 require_once 'functions/pagination.inc.php';
 ?>
 <html>
-<div class="container">	 
+<div class="container">
+    		<div class="p-5 my-4 bg-light rounded-3">	 
 	<h2>
         Pesquisar por data de publicação 
 	</h2>
