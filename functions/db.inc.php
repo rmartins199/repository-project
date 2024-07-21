@@ -17,3 +17,4 @@ try{
 }  catch(PDOException $e){
     echo "Erro: Conexão com base de dados não realizada com sucesso. Erro gerado " . $e->getMessage();
 }
+?>
