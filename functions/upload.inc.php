@@ -17,6 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
     try {
         // Conectando ao banco de dados
         require_once 'db.inc.php';
+		require_once '../controllers/upload_controller.inc.php';
+		
+		// CONTROLADOR DE ERROS		
+		$errors = [];
+		
+		if (is_input_empty($document_title, $document_wordkey, $document_summary, $document_description, $collections_id, $access_id, $state_id)){
+			$errors["empty_input"] = "Preenche todos os campos!";
+		}
+
+		if (validate_title($document_title)){
+			$errors["characters_invalid"] = "Caracteres proibidos à serem utilizados!";
+		}
+		
+		if ($errors){
+			$_SESSION["errors_upload"] = $errors;
+
+			header("Location: /?page=publish");
+			exit(); // Certifique-se de chamar exit() após o redirecionamento para interromper a execução do script
+		}
 
         // Verificando se o arquivo foi enviado sem erros
         if ($_FILES['file']['error'] == UPLOAD_ERR_OK) {
@@ -33,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
             // Movendo o arquivo para o diretório de uploads
             if (move_uploaded_file($fileTmpPath, $destPath)) {
 				
-    			$query ="INSERT INTO document (DocumentTitle, DocumentWordKey, DocumentoSummary, DocumentoDescription, UserID, collections_CollectionsID, documentAccess_AccessID, documentSate_StateID) 
+    			$query ="INSERT INTO document (DocumentTitle, DocumentWordKey, DocumentSummary, DocumentDescription, UserID, collections_CollectionsID, documentAccess_AccessID, documentState_StateID) 
 				VALUES (:document_title, :document_wordkey, :document_summary, :document_description, :id_login, :collections_id, :access_id, :state_id);";
 				$stmt = $pdo->prepare($query);
 				// CONVERSÃO DE VARIAVEIS
@@ -63,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 
                 // Executando a consulta
                 if ($stmt->execute()) {
-                    echo "O arquivo foi carregado e armazenado com sucesso.";
+                    header("Location:/?page=publish&upload=success");
                 } else {
                     echo "Erro ao armazenar informações no banco de dados.";
                 }
