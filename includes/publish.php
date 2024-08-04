@@ -1,24 +1,28 @@
 <?php
 require_once 'functions/config_session.inc.php';
+require_once 'views/upload_view.inc.php';
 
 if(!isset($_SESSION['user_id'])){ //if login in session is not set
-    header("Location:./login.php");
+    header("Location:/?page=login");
 }
-
-require_once 'views/login_view.inc.php';
 ?>
 <html>
 <div class="container">
     		<div class="p-5 my-4 bg-light rounded-3">
+				<h2 class="pb-2 border-bottom">Publicar relatorio</h2>
+				<?php
+					check_upload_errors();
+				?>
+				</br>
 				<form action="functions/upload.inc.php" method="post" enctype="multipart/form-data">
 					<div class="row justify-content-center rowregister">
   						<div class="col-6 col-sm-8">
 				 			<label for="DocumentTitle" class="form-label"><b>Titulo do relatorio:</b></label>
-    						<input type="text" class="form-control" name="DocumentTitle" id="DocumentTitle" placeholder="Titulo do relatorio!">
+    						<input type="text" class="form-control" name="DocumentTitle" id="DocumentTitle" placeholder="Titulo do relatorio!" maxlength="45">
   						</div>
   						<div class="col-6 col-sm-8">
 				 			<label for="DocumentWordkey" class="form-label"><b>Palavras chaves:</b></label>
-    						<input type="text" class="form-control" name="DocumentWordkey" id="DocumentWordkey" placeholder="Palavras chaves!">
+    						<input type="text" class="form-control" name="DocumentWordkey" id="DocumentWordkey" placeholder="Palavras chaves!" maxlength="45">
   						</div>
   						<div class="col-6 col-sm-8">
 				 			<label for="DocumentSummary" class="form-label"><b>Resumo:</b></label>
@@ -65,11 +69,6 @@ require_once 'views/login_view.inc.php';
 						</row>
   					</div>
 				</form>
-				<h2>
-					<?php
-					output_email();
-					?>
-				</h2>
 			</div>
 		</div>
 </html>
