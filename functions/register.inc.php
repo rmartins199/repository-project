@@ -32,21 +32,14 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 		
 		if ($errors){
 			$_SESSION["errors_signup"] = $errors;
-			/* RETORNAR DADOS CASO TENHA ERRO AO REGISTAR -- EM DESENVOLVIMENTO --
-			$signupData = [
-				"email" => $email,
-				"first_name" => $first_name,
-				"last_name" => $last_name
-			];
-			$_SESSION["signup_data"] = $signupData;
-			*/
-			header("Location:../register.php");
+
+			header("Location:Location:/?page=registration");
 			die();
 		}
 		
 		create_user($pdo, $email, $passwordhash, $first_name, $last_name, $user_number, $dateb);
 		
-		header("Location:../register.php?signup=success");
+		header("Location:/?page=registration&signup=success");
 		
 		$pdo = null;
 		$stmt = null;
@@ -57,6 +50,6 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 		die("Query failed: " . $e->getMessage());
 	}
 } else{
-	header("Location:../index.html");
+	header("Location:/?page=home");
 	die();
 }

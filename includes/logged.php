@@ -33,7 +33,7 @@ require_once 'functions/profile.php';
         				<div>
           					<h2>Editar relatorio</h2>
           					<p>Editar relatorios publicados com o estado em "Aberto", caso esteja fechado não poderá ser editado.</p>
-          					<a href="#" class="btn btn-primary">Editar Relatorio</a>
+          					<a href="?page=my_publish" class="btn btn-primary">Editar Relatorio</a>
         				</div>
       				</div>
     			</div>

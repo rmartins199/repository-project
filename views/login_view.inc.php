@@ -7,7 +7,7 @@ function output_email()
 	if (isset($_SESSION["user_id"])){
 		echo "Bem vindo " . $_SESSION["user_id"];	
 	} else{	
-	header("Location:../index.php");
+	header("Location: /?page=home");
 	die();	
 	}
 }

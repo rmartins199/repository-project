@@ -4,6 +4,6 @@ session_start();
 session_unset();
 session_destroy();
 
-header("Location:/?page=index");
+header("Location:/?page=home");
 die();
 ?>

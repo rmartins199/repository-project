@@ -49,12 +49,12 @@
         <div class="col-md-6 col-lg-4 col-xl-3">
             <h2>Area Privada</h2>
             <p>Ainda em desenvovimento, deverá estár presente uma pequena descrição sobre Area privada da UMAIA e a imagem servira como link para reencaminhar o utilizador para o respetivo login, na area de aluno.</p>
-			<img class="img-responsive" src="assets/image/logo_ismai.png" alt="Repositório TIWM">
+			<img class="img-responsive" src="assets/images/logo_ismai.png" alt="Repositório TIWM">
         </div>
         <div class="col-md-6 col-lg-4 col-xl-3">
             <h2>Email</h2>
             <p>Ainda em desenvovimento, deverá estár presente uma pequena descrição sobre Area privada da UMAIA e a imagem servira como link para reencaminhar o utilizador para o respetivo email de aluno, na area de aluno.</p>
-			<img class="img-responsive" src="assets/image/logo_ipmaia.png" alt="Repositório TIWM">
+			<img class="img-responsive" src="assets/images/logo_ipmaia.png" alt="Repositório TIWM">
         </div>
 	</div>
 </div>
