@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/* RETORNAR DADOS CASO TENHA ERRO AO REGISTAR -- EM DESENVOLVIMENTO --
-
-function signup_inputs(){
-	
-	if(isset($_SESSION["signup_data"]["email"]) && !isset($_SESSION["errors_signup"]["is_email_taken"])){
-		
-	}
-}
-*/
 function check_signup_errors()
 {
 	if (isset($_SESSION['errors_signup'])){

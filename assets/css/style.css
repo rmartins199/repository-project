@@ -70,3 +70,9 @@ section:target {
 }
 
 /* Area Privada! */
+
+/* Edição de publicação */
+
+textarea {
+    width: -webkit-fill-available;
+}
