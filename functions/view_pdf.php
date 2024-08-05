@@ -1,12 +1,12 @@
 <?php
-// Configurações do banco de dados
+// Ligação a base de dados
 require_once 'db.inc.php';
 
 try {
-    // Obtendo o ID do documento
+    // Obtém o ID do documento
     $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-    // Consultando o documento
+    // Consulta o documento
     $sql = "SELECT FileName, FilePath, FileType FROM documentfile WHERE FileID = :FileID";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':FileID', $id, PDO::PARAM_INT);

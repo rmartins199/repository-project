@@ -1,11 +1,13 @@
 <?php
+// Conecta a ficheiros externos (por exemplo base dados)
 require_once 'db.inc.php';
 require_once 'functions/config_session.inc.php';
 
-if(!isset($_SESSION['user_id'])){ //if login in session is not set
+// Certifica que user tem um login efetuado
+if(!isset($_SESSION['user_id'])){
     header("Location:/?page=login");
 }
-
+// Atribui valor a variavel $userId atraves da variavel armazenada na SESSION
 $userId = $_SESSION['user_id'];
 
 // Número de resultados por página
@@ -28,8 +30,7 @@ $total_results = $total_stmt->fetchColumn();
 // Calcula o número total de páginas
 $total_pages = ceil($total_results / $results_per_page);
 
-// Obtém os resultados para a página atual
-
+// Obtém os resultados por autor
 try {
     $query ="SELECT document.DocumentId, document.PublicationDate, document.DocumentTitle, documentstate.StateName, collections.CollectionsName
 			FROM document
@@ -38,10 +39,12 @@ try {
 			WHERE UserID = :user_id
 			LIMIT :limit OFFSET :offset";
     $stmt = $pdo->prepare($query);
+	// Bind dos parâmetros
 	$stmt->bindValue(':limit', $results_per_page, PDO::PARAM_INT);
 	$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 	$stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
     $stmt->execute();
+	// Recupera o resultado da consulta
     $reports = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo 'Erro: ' . $e->getMessage();

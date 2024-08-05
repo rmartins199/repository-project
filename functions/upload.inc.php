@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 	$id_login = $_SESSION["user_id"];
 
     try {
-        // Conectando ao banco de dados
+        // Conecta a ficheiros externos
         require_once 'db.inc.php';
 		require_once '../controllers/upload_controller.inc.php';
 		
@@ -27,17 +27,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 		}
 
 		if (validate_title($document_title)){
-			$errors["characters_invalid"] = "Caracteres proibidos à serem utilizados!";
+			$errors["title_invalid"] = "Caracteres proibidos à serem utilizados no titulo!";
+		}
+		
+		if (validate_title($document_wordkey)){
+			$errors["workey_invalid"] = "Caracteres proibidos à serem utilizados nas palavras-chave!";
+		}
+		
+		if (validate_title($document_summary)){
+			$errors["summary_invalid"] = "Caracteres proibidos à serem utilizados no sumário!";
+		}
+
+		if (validate_title($document_description)){
+			$errors["description_invalid"] = "Caracteres proibidos à serem utilizados na descrição!";
 		}
 		
 		if ($errors){
 			$_SESSION["errors_upload"] = $errors;
 
 			header("Location: /?page=publish");
-			exit(); // Certifique-se de chamar exit() após o redirecionamento para interromper a execução do script
+			exit(); // Certifica que após o redirecionamento, interrompe a execução do script
 		}
 
-        // Verificando se o arquivo foi enviado sem erros
+        // Verifica se o arquivo foi enviado sem erros
         if ($_FILES['file']['error'] == UPLOAD_ERR_OK) {
             $fileTmpPath = $_FILES['file']['tmp_name'];
             $fileName = $_FILES['file']['name'];
@@ -45,11 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
             $fileType = $_FILES['file']['type'];
             $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
 
-            // Gerando um nome único para evitar conflitos
+            // Gera um nome único para evitar repetições
             $newFileName = uniqid() . '.' . $fileExtension;
             $destPath = $uploadDir . $newFileName;
 
-            // Movendo o arquivo para o diretório de uploads
+            // Move o arquivo para o diretório de uploads
             if (move_uploaded_file($fileTmpPath, $destPath)) {
 				
     			$query ="INSERT INTO document (DocumentTitle, DocumentWordKey, DocumentSummary, DocumentDescription, UserID, collections_CollectionsID, documentAccess_AccessID, documentState_StateID) 
@@ -66,9 +78,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 				$stmt->bindParam(':state_id', $state_id, PDO::PARAM_INT);
 				$stmt->execute();
 				
+				// Ultimo ID inserido (Documento)
 				$id_document  = $pdo->lastInsertId();
 				
-                // Preparando a consulta SQL para inserir o caminho do arquivo
+                // Prepara a consulta SQL para inserir o caminho do arquivo
                 $sql = "INSERT INTO documentfile (FileID, FileName, FilePath, FileType, FileSize) 
 				VALUES (:id_document ,:nome, :caminho, :tipo, :tamanho)";
                 $stmt = $pdo->prepare($sql);
@@ -80,11 +93,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
                 $stmt->bindParam(':tipo', $fileType);
                 $stmt->bindParam(':tamanho', $fileSize);
 
-                // Executando a consulta
+                // Executa a consulta
                 if ($stmt->execute()) {
                     header("Location:/?page=publish&upload=success");
                 } else {
-                    echo "Erro ao armazenar informações no banco de dados.";
+                    echo "Erro ao armazenar informações na base de dados.";
                 }
             } else {
                 echo "Erro ao mover o arquivo para o diretório de uploads.";

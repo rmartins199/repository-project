@@ -3,11 +3,10 @@
 if($_SERVER["REQUEST_METHOD"] === "POST"){
 	$email = $_POST["email"];
 	$passwordhash = $_POST["passwordhash"];
-	//varivel = $_POST["campo do form"];
-	// -- EM DESENVOLVIMENTO, REGISTO COM DUAS TABELAS --
 	$first_name = $_POST["first_name"];
 	$last_name = $_POST["last_name"];
 	$user_number = $_POST["user_number"];
+	/* NECESSARIO CORRIGIR, NÃO INSERE DATA */
 	$dateb = trim($_POST['dateb']);
 	
 	try{

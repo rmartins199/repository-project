@@ -1,4 +1,5 @@
 <?php
+// Conecta a ficheiros externos (por exemplo base dados)
 require_once 'db.inc.php';
 // Fazer update com os dados alterados no FORM!
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -19,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $document_update = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($document_update && $document_update['documentState_StateID'] == 1) {
-    		// Preparar a query de atualização
+    		// Preparar a query de update
     		$update_query = "UPDATE document SET 
         					DocumentTitle = :documentTitle, 
         					DocumentWordKey = :documentWordkey, 
@@ -30,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         					documentState_StateID = :state_id 
         					WHERE DocumentId = :document_id";
             $update_stmt = $pdo->prepare($update_query);
+			// Bind dos parâmetros
 			$update_stmt->bindParam(":documentTitle", $documentTitle);
 			$update_stmt->bindParam(":documentWordkey", $documentWordkey);
 			$update_stmt->bindParam(":documentSummary", $documentSummary);

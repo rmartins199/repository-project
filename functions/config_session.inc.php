@@ -3,6 +3,7 @@
 ini_set('session.use_only_cookies', 1);
 ini_set('session.use_strict_mode', 1);
 
+//Parametros utilizados para a sessão
 session_set_cookie_params([
 	'lifetime' => 1800,
 	'domain' => '127.0.0.2',
@@ -11,6 +12,7 @@ session_set_cookie_params([
 	'httponly' => true
 ]);
 
+//Inicia sessão
 session_start();
 
 if (isset($_SESSION["user_id"])){

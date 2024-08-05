@@ -1,11 +1,12 @@
 <?php
+// Conecta a ficheiros externos (por exemplo base dados)
 require_once 'db.inc.php';
 
-// NEW CODE!!
-
+// Obtém o ID do relatorio publicado
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = (int) $_GET['id'];
 	
+	// Consulta de SQL para selecionar informação do relatorio publicado
 	try{
 		$query_publication = "
         SELECT useraccount.UserFName, useraccount.UserLName, document.DocumentTitle, document.DocumentWordKey, document.PublicationDate, document.DocumentSummary, document.DocumentDescription, documentstate.StateName, collections.CollectionsName, documentfile.FileID, documentfile.FileName, documentfile.FileSize, documentfile.FileType
@@ -17,8 +18,10 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 		WHERE document.DocumentId = :id ";
 		
 		$stmt = $pdo->prepare($query_publication);
+		// Bind dos parâmetros
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
+		// Recupera o resultado da consulta
 		$documento = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		if (!$documento) {
