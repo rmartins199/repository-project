@@ -5,6 +5,8 @@ require_once 'views/signup_view.inc.php';
 <html>
 <div class="container">
     <div class="p-5 my-4 bg-light rounded-3">
+		<h2 class="pb-2 border-bottom">Novo registo</h2>
+		</br>
 		<! FORMULARIO DE REGISTO !>
 		<?php
 		check_signup_errors();
@@ -24,7 +26,7 @@ require_once 'views/signup_view.inc.php';
 		<div class="row justify-content-center rowregister">
 			<div class="col-6 col-sm-4">
 				<label for="email" class="form-label"><b>Endereço de correio eletrónico:</b></label>
-    			<input type="" class="form-control" name="email" id="email" placeholder="Preencher com endereço de correio eletrónico" required>
+    			<input type="" class="form-control" name="email" id="email" placeholder="Preencher com endereço de correio eletrónico">
   			</div>
 			
 			  <div class="col-6 col-sm-4 justify-content-center">
@@ -35,16 +37,8 @@ require_once 'views/signup_view.inc.php';
 		<div class="row justify-content-center rowregister">
   			<div class="col-6 col-sm-4">
 				<label for="passwordhash" class="form-label"><b>Inserir password:</b></label>
-    			<input type="password" class="form-control" name="passwordhash" id="passwordhash" placeholder="Inserir password" required>
+    			<input type="password" class="form-control" name="passwordhash" id="passwordhash" placeholder="Inserir password">
   			</div>
-			
-  			<div class="col-6 col-sm-4">
-				<label for="passwordsalt" class="form-label"><b>Confirmar password inserida:</b></label>
-    			<input type="password" class="form-control" name="passwordsalt" id="passwordsalt" placeholder="Confirmar password" disabled>
-  			</div>
-
-		</div>
-		<div class="row justify-content-center rowregister">
   			<div class="col-6 col-sm-4">
 				 <label for="dateb" class="form-label"><b>Data de Nascimento:</b></label>
     			<input type="date" class="form-control" name="dateb" id="dateb">
