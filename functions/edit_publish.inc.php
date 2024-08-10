@@ -7,9 +7,28 @@ require_once 'functions/config_session.inc.php';
 if(!isset($_SESSION['user_id'])){
     header("Location:/?page=login");
 }
+
+// Função para obter o estado do documento
+function get_document_status($doc_id, $pdo) {
+    // Consulta SQL para obter o estado do documento pelo seu ID
+    $stmt = $pdo->prepare("SELECT documentState_StateID FROM document WHERE DocumentId = :id");
+    $stmt->execute([':id' => $doc_id]);
+    return $stmt->fetchColumn(); // Retorna o estado do documento
+}
 //Recebe ID do relátorio publicado
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = (int) $_GET['id'];
+	
+    // Obtém o status do documento e armazena em uma variável
+    $doc_status = get_document_status($id, $pdo);
+
+    // Variável para armazenar mensagem de estado do documento
+    $status_message = "";
+
+    // Verifica se o status é igual a 2 (fechado) e gera mensagem de erro
+    if ($doc_status == 2) {
+        $status_message = "Este relatorio está fechado e não pode ser editado.";
+    }
 	
 	try{
 		$query_publication = "

@@ -1,23 +1,5 @@
 <?php
 require_once 'functions/edit_publish.inc.php';
-
-// Função para obter o estado do documento
-function get_document_status($doc_id, $pdo) {
-    // Consulta SQL para obter o estado do documento pelo seu ID
-    $stmt = $pdo->prepare("SELECT documentState_StateID FROM document WHERE DocumentId = :id");
-    $stmt->execute([':id' => $doc_id]);
-    return $stmt->fetchColumn(); // Retorna o estado do documento
-}
-    // Obtém o status do documento e armazena em uma variável
-    $doc_status = get_document_status($id, $pdo);
-
-    // Variável para armazenar mensagem de estado do documento
-    $status_message = "";
-
-    // Verifica se o status é igual a 2 (fechado) e gera mensagem de erro
-    if ($doc_status == 2) {
-        $status_message = "Este relatorio está fechado e não pode ser editado.";
-    }
 ?>
 <html>
 		<div class="container">
