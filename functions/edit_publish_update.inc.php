@@ -1,6 +1,7 @@
 <?php
 // Conecta a ficheiros externos (por exemplo base dados)
 require_once 'db.inc.php';
+
 // Fazer update com os dados alterados no FORM!
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$document_id = $_POST['document_id'];

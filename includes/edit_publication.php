@@ -1,5 +1,23 @@
 <?php
 require_once 'functions/edit_publish.inc.php';
+
+// Função para obter o estado do documento
+function get_document_status($doc_id, $pdo) {
+    // Consulta SQL para obter o estado do documento pelo seu ID
+    $stmt = $pdo->prepare("SELECT documentState_StateID FROM document WHERE DocumentId = :id");
+    $stmt->execute([':id' => $doc_id]);
+    return $stmt->fetchColumn(); // Retorna o estado do documento
+}
+    // Obtém o status do documento e armazena em uma variável
+    $doc_status = get_document_status($id, $pdo);
+
+    // Variável para armazenar mensagem de estado do documento
+    $status_message = "";
+
+    // Verifica se o status é igual a 2 (fechado) e gera mensagem de erro
+    if ($doc_status == 2) {
+        $status_message = "Este relatorio está fechado e não pode ser editado.";
+    }
 ?>
 <html>
 		<div class="container">
@@ -90,7 +108,11 @@ require_once 'functions/edit_publish.inc.php';
 					</table>
 						    <div class="col-6 col-sm-4 mx-auto">
                 				<div class="d-grid">
-                  				<button class="btn btn-lg text-white btn-register" data-toggle="button">Editar Relatorio</button>
+                  				<?php if ($doc_status != 2): ?>
+        							<button class="btn btn-lg text-white btn-register" data-toggle="button">Editar Relatorio</button>
+    							<?php else: ?>
+        							<p class="alert alert-danger" role="alert"><?= $status_message ?></p>
+   	 							<?php endif; ?>
                 				</div>
               				</div>
 					</form>
