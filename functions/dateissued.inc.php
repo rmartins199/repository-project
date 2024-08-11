@@ -6,7 +6,7 @@ require_once 'db.inc.php';
 $results_per_page = 10;
 
 // Determina a página atual
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = isset($_GET['pg']) ? (int)$_GET['pg'] : 1;
 if ($page < 1) $page = 1;
 
 // Calcula o offset
