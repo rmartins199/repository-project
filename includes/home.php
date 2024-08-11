@@ -1,3 +1,17 @@
+<?php
+// Conexão com o banco de dados
+require_once 'functions/db.inc.php';
+
+// Função para recuperar os três últimos documentos
+function getLastThreeDocuments(object $pdo) {
+    $sql = "SELECT * FROM document ORDER BY PublicationDate DESC LIMIT 3";
+    $stmt = $pdo->query($sql);
+    return $stmt->fetchAll();
+}
+
+$documents = getLastThreeDocuments($pdo);
+?>
+
 <html>
 <div class="container">
     <div class="p-5 my-4 bg-light rounded-3">
@@ -7,44 +21,33 @@
     </div>
     <div class="row g-3">
         <div class="col">
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="https://fullwhitescreen.com/gray-screen.webp" class="d-block w-100" alt="..."><rect width="100%" height="100%" fill="#777"/>
-      <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>Em desenvolvimento, relatorios recentemente publicados</p>
-      </div>
+		<div id="documentCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <?php foreach ($documents as $index => $document): ?>
+            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                <div class="d-flex justify-content-center align-items-center" style="height: 350px; background-color: #f8f9fa;">
+                    <div class="text-center">
+                        <h5><?= htmlspecialchars($document['DocumentTitle']) ?></h5>
+                        <p><?= htmlspecialchars($document['DocumentSummary']) ?></p>
+						<p><?= htmlspecialchars($document['PublicationDate']) ?></p>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
-    <div class="carousel-item">
-      <img src="https://fullwhitescreen.com/gray-screen.webp" class="d-block w-100" alt="..."><rect width="100%" height="100%" fill="#959595"/>
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
-        <p>Em desenvolvimento, relatorios recentemente publicados.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img src="https://fullwhitescreen.com/gray-screen.webp" class="d-block w-100" alt="..."><rect width="100%" height="100%" fill="#bababa"/>
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Third slide label</h5>
-        <p>Em desenvolvimento, relatorios recentemente publicados.</p>
-      </div>
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+    		<a class="carousel-control-prev text-dark" href="#documentCarousel" role="button" data-slide="prev">
+        		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        		<span class="sr-only">Previous</span>
+    		</a>
+    		<a class="carousel-control-next text-dark" href="#documentCarousel" role="button" data-slide="next">
+        		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+        		<span class="sr-only">Next</span>
+    		</a>
+		</div>
+		<!-- Inclua o JS do Bootstrap e o jQuery -->
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         </div>
         <div class="col-md-6 col-lg-4 col-xl-3">
             <h2>Area Privada</h2>
