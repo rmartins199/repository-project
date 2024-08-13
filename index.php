@@ -4,7 +4,7 @@ require_once 'functions/config_session.inc.php';
 
 // Função para carregar a página solicitada
 function loadPage($page) {
-    $allowed_pages = ['home', 'login', 'registration', 'collections', 'dateissued', 'author', 'type', 'publication', 'logged', 'publish', 'my_publish', 'edit_publication' ,'edit_publish'];
+    $allowed_pages = ['home', 'login', 'registration', 'collections', 'dateissued', 'author', 'type', 'publication', 'logged', 'publish', 'my_publish', 'edit_publication' ,'edit_publish', 'show_author', 'show_collections'];
     if (in_array($page, $allowed_pages)) {
         include __DIR__ . '/includes/' . $page . '.php';
     } else {
@@ -24,9 +24,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 <meta name="viewport" content="width=device-width, initial-scale=1">
 	
 <title>Repositorio TIWM</title>
-	<link rel="stylesheet" href="assets/bootstrap-5.0.2-dist/css/bootstrap.min.css">
-	<link href="assets/css/style.css" rel="stylesheet">
-	<script src="assets/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="assets/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <script src="assets/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
 </head>
 	
 <body class="d-flex flex-column h-100">
@@ -67,7 +67,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
   				</a>
   				<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
     				<li><a class="dropdown-item" href="/">PT</a></li>
-    				<li><a class="dropdown-item" href="#">EN</a></li>
+    				<li><a class="dropdown-item" href="?page=teste">EN</a></li>
   				</ul>
             </li>
           </ul>
