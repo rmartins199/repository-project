@@ -11,7 +11,7 @@ require_once 'views/signup_view.inc.php';
 		<?php
 		check_signup_errors();
 		?>
-        <form action="functions/register.inc.php" method="post">
+        <form action="functions/register.inc.php" method="post" onsubmit="return validateForm();">
 		<div class="row justify-content-center rowregister">
   			<div class="col-6 col-sm-4">
 				 <label for="first_name" class="form-label"><b>Primeiro nome:</b></label>
