@@ -17,16 +17,12 @@ require_once 'functions/edit_publish.inc.php';
           				</thead>   
           				<tbody>
             				<tr>
-								<td width="30%">ID publicação:</td>
-								<td><input type="hidden" name="document_id" value="<?php echo htmlspecialchars($id); ?>"></td>
-            				</tr>
-            				<tr>
 								<td width="30%">Título:</td>
-								<td><textarea type='text' name='DocumentTitle' style="width: -webkit-fill-available"><?php echo htmlspecialchars($documento['DocumentTitle']); ?></textarea></td>
+								<td><textarea type='text' name='DocumentTitle' style="width: -webkit-fill-available" maxlength="45"><?php echo htmlspecialchars($documento['DocumentTitle']); ?></textarea></td>
             				</tr>
 							<tr>
 								<td width="30%">Palavras-chave:</td>
-								<td><textarea type='text' name='DocumentWordkey' style="width: -webkit-fill-available"><?php echo htmlspecialchars($documento['DocumentWordKey']); ?></textarea></td>
+								<td><textarea type='text' name='DocumentWordkey' style="width: -webkit-fill-available" maxlength="45"><?php echo htmlspecialchars($documento['DocumentWordKey']); ?></textarea></td>
             				</tr> 
 							<tr>
 								<td width="30%">Descrição:</td>

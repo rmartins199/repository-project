@@ -37,7 +37,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 		document.DocumentSummary, document.DocumentDescription, 
 		documentstate.StateName, collections.CollectionsName, 
 		documentfile.FileID, documentfile.FileName, 
-		documentfile.FileSize, documentfile.FileType
+		documentfile.FileSize, documentfile.FileType,
+		document.DocumentId
 		FROM document
 		INNER JOIN useraccount ON useraccount.userLogin_UserID = document.UserID
 		INNER JOIN documentstate ON documentstate.StateID = document.documentState_StateID
@@ -50,6 +51,9 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$documento = $stmt->fetch(PDO::FETCH_ASSOC);
+		
+		// Supondo que $document_id contém o ID do documento a ser editado
+		$_SESSION['DocumentId'] = $id;
 		
 	    if ($documento) {
         	$state = $documento['StateName'];
