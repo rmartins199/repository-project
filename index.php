@@ -4,7 +4,7 @@ require_once 'functions/config_session.inc.php';
 
 // Função para carregar a página solicitada
 function loadPage($page) {
-    $allowed_pages = ['home', 'login', 'registration', 'collections', 'dateissued', 'author', 'type', 'publication', 'logged', 'publish', 'my_publish', 'edit_publication' ,'edit_publish', 'show_author', 'show_collections'];
+    $allowed_pages = ['home', 'login', 'registration', 'collections', 'dateissued', 'author', 'publication', 'logged', 'publish', 'my_publish', 'edit_publication' ,'edit_publish', 'show_author', 'show_collections'];
     if (in_array($page, $allowed_pages)) {
         include __DIR__ . '/includes/' . $page . '.php';
     } else {
@@ -54,10 +54,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
   				<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 					<li><a class="dropdown-item" href="?page=collections">Coleções</a></li>
-					<li><hr class="dropdown-divider"></li>
     				<li><a class="dropdown-item" href="?page=dateissued">Data de Publicação</a></li>
     				<li><a class="dropdown-item" href="?page=author">Autor</a></li>
-    				<li><a class="dropdown-item" href="?page=type">Assunto</a></li>
   				</ul>
             </li>
 
