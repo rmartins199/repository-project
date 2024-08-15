@@ -28,7 +28,7 @@
 	cursor: pointer;
 }
 
-/* CSS utilizado nos links nas tabelas*/
+/* CSS utilido nas tabelas*/
 
 .table {
 	background-color: white;
@@ -38,7 +38,13 @@
 }
 
 .tableP{
-	margin-top: -15px;
+	margin-top: 20px;
+	border-radius: .25rem;
+}
+
+.page-item{
+	border-top-right-radius: .25rem;
+    border-bottom-left-radius: 0;
 }
 
 .page-link{
@@ -74,7 +80,6 @@ a.linktable:hover {
 }
 
 /* CSS de página coleções */
-
 .vertical-center {
   	min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
   	min-height: 50vh; /* These two lines are counted as one :-)       */
@@ -122,5 +127,5 @@ a.linktable:hover {
 }
 
 .h2title{
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 }
