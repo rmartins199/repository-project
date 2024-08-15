@@ -16,22 +16,22 @@ function is_input_empty(string $document_title, string $document_wordkey, string
 // Permitir apenas letras maiúsculas e minúsculas e espaços
 function validate_title($document_title) {
 
-    return !preg_match('/^[a-zA-Z\s]+$/', $document_title);
+    return !preg_match('/^[A-Za-zÀ-ÖØ-öø-ÿÁÉÍÓÚáéíóúâêîôûãõçÇ,.\+\-!:;()\s]+$/', $document_title);
 }
 
 function validateWordkey(string $document_wordkey) {
 
-    return !preg_match('/^[a-zA-Z\s]+$/', $document_wordkey);
+    return !preg_match('/^[A-Za-zÀ-ÖØ-öø-ÿÁÉÍÓÚáéíóúâêîôûãõçÇ,.\+\-!:;()\s]+$/', $document_wordkey);
 }
 
 function validateSummary(string $document_summary) {
 
-    return !preg_match('/^[a-zA-Z\s]+$/', $document_summary);
+    return !preg_match('/^[A-Za-zÀ-ÖØ-öø-ÿÁÉÍÓÚáéíóúâêîôûãõçÇ,.\+\-!:;()\s]+$/', $document_summary);
 }
 
 function validateDescription(string $document_description) {
 
-    return !preg_match('/^[a-zA-Z\s]+$/', $document_description);
+    return !preg_match('/^[A-Za-zÀ-ÖØ-öø-ÿÁÉÍÓÚáéíóúâêîôûãõçÇ,.\+\-!:;()\s]+$/', $document_description);
 }
 
 ?>
