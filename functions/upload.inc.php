@@ -2,6 +2,8 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 	require_once 'config_session.inc.php';
 
+	// Define o tamanho máximo do arquivo em bytes (por exemplo, 5 MB)
+	$maxFileSize = 5 * 1024 * 1024;
     // Diretório onde os arquivos serão armazenados
     $uploadDir = 'uploads/';
 	//Preenchimento do form
@@ -49,65 +51,76 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 			exit(); // Certifica que após o redirecionamento, interrompe a execução do script
 		}
 
-        // Verifica se o arquivo foi enviado sem erros
-        if ($_FILES['file']['error'] == UPLOAD_ERR_OK) {
-            $fileTmpPath = $_FILES['file']['tmp_name'];
-            $fileName = $_FILES['file']['name'];
-            $fileSize = $_FILES['file']['size'];
-            $fileType = $_FILES['file']['type'];
-            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+// Verifica se o arquivo foi enviado sem erros
+    if ($_FILES['file']['error'] == UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['file']['tmp_name'];
+        $fileName = $_FILES['file']['name'];
+        $fileSize = $_FILES['file']['size'];
+        $fileType = $_FILES['file']['type'];
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-            // Gera um nome único para evitar repetições
-            $newFileName = uniqid() . '.' . $fileExtension;
-            $destPath = $uploadDir . $newFileName;
+        // Verifica a extensão do arquivo
+        if ($fileExtension !== 'pdf') {
+            echo "Erro: Apenas arquivos PDF são permitidos.";
+            exit;
+        }
 
-            // Move o arquivo para o diretório de uploads
-            if (move_uploaded_file($fileTmpPath, $destPath)) {
-				
-    			$query ="INSERT INTO document (DocumentTitle, DocumentWordKey, DocumentSummary, DocumentDescription, UserID, collections_CollectionsID, documentAccess_AccessID, documentState_StateID) 
-				VALUES (:document_title, :document_wordkey, :document_summary, :document_description, :id_login, :collections_id, :access_id, :state_id);";
-				$stmt = $pdo->prepare($query);
-				// CONVERSÃO DE VARIAVEIS
-				$stmt->bindParam(":document_title", $document_title);
-				$stmt->bindParam(":document_wordkey", $document_wordkey);
-				$stmt->bindParam(":document_summary", $document_summary);
-				$stmt->bindParam(":document_description", $document_description);
-    			$stmt->bindParam(':id_login', $id_login, PDO::PARAM_INT);
-    			$stmt->bindParam(':collections_id', $collections_id, PDO::PARAM_INT);
-				$stmt->bindParam(':access_id', $access_id, PDO::PARAM_INT);
-				$stmt->bindParam(':state_id', $state_id, PDO::PARAM_INT);
-				$stmt->execute();
-				
-				// Ultimo ID inserido (Documento)
-				$id_document  = $pdo->lastInsertId();
-				
-                // Prepara a consulta SQL para inserir o caminho do arquivo
-                $sql = "INSERT INTO documentfile (FileID, FileName, FilePath, FileType, FileSize) 
-				VALUES (:id_document ,:nome, :caminho, :tipo, :tamanho)";
-                $stmt = $pdo->prepare($sql);
+        // Verifica o tamanho do arquivo
+        if ($fileSize > $maxFileSize) {
+            echo "Erro: O tamanho do arquivo excede o limite máximo de 5 MB.";
+            exit;
+        }
 
-                // Bind dos parâmetros
-				$stmt->bindParam(':id_document', $id_document, PDO::PARAM_INT);
-                $stmt->bindParam(':nome', $fileName);
-                $stmt->bindParam(':caminho', $destPath);
-                $stmt->bindParam(':tipo', $fileType);
-                $stmt->bindParam(':tamanho', $fileSize);
+        // Gera um nome único para evitar repetições
+        $newFileName = uniqid() . '.' . $fileExtension;
+        $destPath = $uploadDir . $newFileName;
 
-                // Executa a consulta
-                if ($stmt->execute()) {
-                    header("Location:/?page=publish&upload=success");
-                } else {
-                    echo "Erro ao armazenar informações na base de dados.";
-                }
+        // Move o arquivo para o diretório de uploads
+        if (move_uploaded_file($fileTmpPath, $destPath)) {
+            $query = "INSERT INTO document (DocumentTitle, DocumentWordKey, DocumentSummary, DocumentDescription, UserID, collections_CollectionsID, documentAccess_AccessID, documentState_StateID) 
+                VALUES (:document_title, :document_wordkey, :document_summary, :document_description, :id_login, :collections_id, :access_id, :state_id)";
+            $stmt = $pdo->prepare($query);
+            // CONVERSÃO DE VARIAVEIS
+            $stmt->bindParam(":document_title", $document_title);
+            $stmt->bindParam(":document_wordkey", $document_wordkey);
+            $stmt->bindParam(":document_summary", $document_summary);
+            $stmt->bindParam(":document_description", $document_description);
+            $stmt->bindParam(':id_login', $id_login, PDO::PARAM_INT);
+            $stmt->bindParam(':collections_id', $collections_id, PDO::PARAM_INT);
+            $stmt->bindParam(':access_id', $access_id, PDO::PARAM_INT);
+            $stmt->bindParam(':state_id', $state_id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Ultimo ID inserido (Documento)
+            $id_document = $pdo->lastInsertId();
+
+            // Prepara a consulta SQL para inserir o caminho do arquivo
+            $sql = "INSERT INTO documentfile (FileID, FileName, FilePath, FileType, FileSize) 
+                VALUES (:id_document, :nome, :caminho, :tipo, :tamanho)";
+            $stmt = $pdo->prepare($sql);
+
+            // Bind dos parâmetros
+            $stmt->bindParam(':id_document', $id_document, PDO::PARAM_INT);
+            $stmt->bindParam(':nome', $fileName);
+            $stmt->bindParam(':caminho', $destPath);
+            $stmt->bindParam(':tipo', $fileType);
+            $stmt->bindParam(':tamanho', $fileSize);
+
+            // Executa a consulta
+            if ($stmt->execute()) {
+                header("Location:/?page=publish&upload=success");
             } else {
-                echo "Erro ao mover o arquivo para o diretório de uploads.";
+                echo "Erro ao armazenar informações na base de dados.";
             }
         } else {
-            echo "Erro no upload: " . $_FILES['file']['error'];
+            echo "Erro ao mover o arquivo para o diretório de uploads.";
         }
-    } catch (PDOException $e) {
-        echo "Erro de conexão: " . $e->getMessage();
+    } else {
+        echo "Erro no upload: " . $_FILES['file']['error'];
     }
+} catch (PDOException $e) {
+    echo "Erro de conexão: " . $e->getMessage();
+}
 } else {
     echo "Método de requisição inválido ou arquivo não enviado.";
 }
