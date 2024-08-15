@@ -53,7 +53,7 @@ require_once 'functions/publication.inc.php';
             			</tr>
 						<tr>
 							<td><?php echo htmlspecialchars($documento['FileName']); ?></td>
-							<td><?php echo htmlspecialchars((string)$documento['FileSize']); ?></td>
+							<td><?php echo htmlspecialchars($formattedSize); ?></td>
 							<td><?php echo htmlspecialchars($documento['FileType']); ?></td>
 							<td><a href="functions/view_pdf.php?id=<?php echo htmlspecialchars($documento['FileID']); ?>" target="_blank" class="btn btn-secondary btn-sm">Ver/Abrir</a></td>
             			</tr>

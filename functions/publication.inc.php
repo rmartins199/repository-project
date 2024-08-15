@@ -10,6 +10,17 @@ function get_document_status($doc_id, $pdo) {
     return $stmt->fetchColumn(); // Retorna o estado do documento
 }
 
+// Função de conversão do valor recebido da base de dados para MB/KB/bytes
+function formatFileSize($size) {
+    if ($size >= 1048576) {
+        return number_format($size / 1048576, 2) . ' MB'; // Se o tamanho for maior ou igual a 1 MB (1048576 bytes), é convertido para megabytes (MB)
+    } elseif ($size >= 1024) {
+        return number_format($size / 1024, 2) . ' KB'; //Se o tamanho for maior ou igual a 1 KB (1024 bytes), é convertido para kilobytes (KB)
+    } else {
+        return $size . ' bytes'; // Se o tamanho for menor que 1 KB, o valor é exibido em bytes.
+    }
+}
+
 // Obtém o ID do relatório publicado
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = (int) $_GET['id'];
@@ -45,6 +56,10 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         $stmt->execute();
         // Recupera o resultado da consulta
         $documento = $stmt->fetch(PDO::FETCH_ASSOC);
+		
+		//Recupera tamanho do documento para conversão
+		$fileSize = $documento['FileSize'];
+        $formattedSize = formatFileSize($fileSize);
 
         if (!$documento) {
             die("Documento não encontrado.");
