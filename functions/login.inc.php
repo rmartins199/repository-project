@@ -38,17 +38,28 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 			die();
 		}
 		
+		// Fecha a sessão atual se estiver ativa
+		if (session_status() == PHP_SESSION_ACTIVE) {
+    		session_write_close();
+		}
+		
+		// Cria um novo ID de sessão e o define com o ID do utilizador
 		$newSessionId = session_create_id();
 		$sessionId = $newSessionId . "_" . $result["UserID"];
 		session_id($sessionId);
 		
+		// Certifica que a sessão está iniciada
+		session_start();
+		
+		// Armazena informações do usuário na sessão
 		$_SESSION["user_id"] = $result["UserID"];
 		$_SESSION["user_email"] = htmlspecialchars($result["UserEmail"]);
 		$_SESSION["user_nome"] = htmlspecialchars($result["UserFName"]);
-		
 		$_SESSION["last_regeneration"] = time();
 		
 		header("Location:/?page=logged");
+		
+		// Encerra a conexão PDO e a instrução
 		$pdo = null;
 		$statement = null;
 		
