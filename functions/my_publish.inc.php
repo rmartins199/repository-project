@@ -14,7 +14,7 @@ $userId = $_SESSION['user_id'];
 $results_per_page = 10;
 
 // Determina a página atual
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = isset($_GET['pg']) ? (int)$_GET['pg'] : 1;
 if ($page < 1) $page = 1;
 
 // Calcula o offset
@@ -32,7 +32,7 @@ $total_pages = ceil($total_results / $results_per_page);
 
 // Obtém os resultados por autor
 try {
-    $query ="SELECT document.DocumentId, document.PublicationDate, document.DocumentTitle, documentstate.StateName, collections.CollectionsName
+    $query ="SELECT document.DocumentId, document.PublicationDate, document.DocumentTitle, document.DocumentSummary, documentstate.StateName, collections.CollectionsName
 			FROM document
 			INNER JOIN documentstate ON documentstate.StateID = document.documentState_StateID
 			INNER JOIN collections ON collections.CollectionsID = document.collections_CollectionsID

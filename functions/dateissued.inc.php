@@ -24,9 +24,10 @@ $total_pages = ceil($total_results / $results_per_page);
 // Obtém os dados dos relatorios publicados e ordenados por data DESC
 $query = "
         SELECT document.DocumentId, document.PublicationDate, 
-		document.DocumentTitle, useraccount.UserFName, 
-		useraccount.UserLName, documentaccess.AccessName, 
-		collections.CollectionsName
+		document.DocumentTitle, `DocumentSummary`, 
+		useraccount.UserFName, useraccount.UserLName, 
+		documentaccess.AccessName, collections.CollectionsName,
+		`UserID`
 		FROM document
 		INNER JOIN useraccount ON useraccount.userLogin_UserID = document.UserID
 		INNER JOIN documentaccess ON documentaccess.AccessID = document.documentAccess_AccessID
