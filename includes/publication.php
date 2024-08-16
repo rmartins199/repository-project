@@ -1,6 +1,15 @@
 <?php
+// Conecta a ficheiros externos (por exemplo base dados)
 require_once 'functions/config_session.inc.php';
 require_once 'functions/publication.inc.php';
+
+// É defenida uma chave de encriptação segura
+$key = "%A!skkwHU9qJR8DSoVjZokJwDDQzC5FZ"; // A chave deve ter 16, 24 ou 32 caracteres (neste caso é de 32)
+$method = "aes-256-cbc";
+// Recolhe o ID pretendido para encriptação que neste caso é 'FileID'
+$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
+$encrypted_id = openssl_encrypt($documento['FileID'], $method, $key, 0, $iv);
+$encrypted_id = base64_encode($encrypted_id . '::' . $iv);
 ?>
 
 <html>
@@ -55,7 +64,7 @@ require_once 'functions/publication.inc.php';
 							<td><?php echo htmlspecialchars($documento['FileName']); ?></td>
 							<td><?php echo htmlspecialchars($formattedSize); ?></td>
 							<td><?php echo htmlspecialchars($documento['FileType']); ?></td>
-							<td><a href="functions/view_pdf.php?id=<?php echo htmlspecialchars($documento['FileID']); ?>" target="_blank" class="btn btn-secondary btn-sm">Ver/Abrir</a></td>
+							<td><a href="functions/view_pdf.php?id=<?php echo urlencode($encrypted_id); ?>" target="_blank" class="btn btn-secondary btn-sm">Ver/Abrir</a></td>
             			</tr>
 					</table>
 				</div>

@@ -2,6 +2,10 @@
 // Conecta a ficheiros externos (por exemplo base dados)
 require_once 'db.inc.php';
 
+// Define a mesma chave de encriptação e método usados na encriptação
+$key = "xAHgjhu32bE%!Mop7u%Ae7g7%V6Pv6oC";
+$method = "aes-256-cbc";
+
 // Função para obter o estado do documento
 function get_document_status($doc_id, $pdo) {
     // Consulta SQL para obter o estado do documento pelo seu ID
@@ -22,11 +26,13 @@ function formatFileSize($size) {
 }
 
 // Obtém o ID do relatório publicado
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $id = (int) $_GET['id'];
+if (isset($_GET['id'])) {
+    $encrypted_id = $_GET['id'];
+    list($encrypted_data, $iv) = explode('::', base64_decode($encrypted_id), 2);
+    $PublishId = openssl_decrypt($encrypted_data, $method, $key, 0, $iv);
 
     // Obtenha o status do documento e armazene em uma variável
-    $doc_status = get_document_status($id, $pdo);
+    $doc_status = get_document_status($PublishId, $pdo);
 
     // Verifica se o estado é igual a 2 (fechado) e redirecione se necessário
     if ($doc_status == 2) {
@@ -40,7 +46,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     }
 
     // Consulta de SQL para selecionar informação do relatorio publicado
-    try {
+    if (is_numeric($PublishId)) {
         $query_publication = "
         SELECT useraccount.UserFName, useraccount.UserLName, document.DocumentTitle, document.DocumentWordKey, document.PublicationDate, document.DocumentSummary, document.DocumentDescription, documentstate.StateName, collections.CollectionsName, documentfile.FileID, documentfile.FileName, documentfile.FileSize, documentfile.FileType
         FROM document
@@ -52,7 +58,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         
         $stmt = $pdo->prepare($query_publication);
         // Bind dos parâmetros
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $PublishId, PDO::PARAM_INT);
         $stmt->execute();
         // Recupera o resultado da consulta
         $documento = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -64,10 +70,14 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         if (!$documento) {
             die("Documento não encontrado.");
         }
-    } catch (PDOException $e) {
-        die("Erro ao conectar a base de dados: " . $e->getMessage());
-    }
+		
+    	} else {
+        echo "<script>
+                alert('ID inválido.');
+                window.location.href = '/?page=home';
+              </script>";
+    	}
 } else {
-    die("ID de documento inválido.");
+    echo "ID não disponivel.";
 }
 ?>
