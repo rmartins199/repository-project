@@ -6,7 +6,6 @@ require_once 'functions/collections.inc.php';
 	<div class="container">
     	<div class="p-5 my-4 bg-light rounded-3">
 			<h2 class="pb-2 border-bottom h2title">Pesquisar por coleção</h2>
-			</br>
 			<?php 
 			foreach ($collection_results as $row):
 			?>

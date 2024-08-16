@@ -44,7 +44,7 @@ require_once 'functions/author.inc.php';
   			</ul>
 			<?php endforeach; ?>
     		<!-- Navegação de Paginação -->
-    		<nav>
+    		<nav class="tableP">
         		<ul class="list-group list-group-horizontal">
             	<?php if ($pg > 1): ?>
                 	<li class="list-group-item"><a href="?page=author&order=<?= $order ?>&letter=<?= $letter ?>&pg=<?= $pg - 1; ?>" class="linktable">Anterior</a></li>

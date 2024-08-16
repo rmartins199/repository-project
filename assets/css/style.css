@@ -55,10 +55,12 @@ a.linktable:link {
 	color:#000000;
 	text-decoration:underline;
 }
+/* Não é utilizado!
 a.linktable:visited {
 	color:#0000ff;
 	text-decoration:none;
 }
+*/
 a.linktable:hover {
 	color: #6c757d;
 	text-decoration:underline;

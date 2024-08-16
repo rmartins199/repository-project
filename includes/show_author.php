@@ -31,11 +31,11 @@ require_once 'functions/show_author.inc.php';
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th width="15%" scope="col">Data</th>
+                            <th width="10%" scope="col">Data</th>
                             <th scope="col">Título</th>
                             <th scope="col">Resumo</th>
-                            <th scope="col">Tipo</th>
-                            <th scope="col">Acesso</th>
+                            <th width="15%" scope="col">Tipo</th>
+                            <th width="6%" scope="col">Acesso</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +43,7 @@ require_once 'functions/show_author.inc.php';
                             <?php $PubDate = (new DateTime($row['PublicationDate']))->format('Y-m-d'); ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($PubDate); ?></td>
-                                <td><a href="/?page=publication&id=<?php echo $row['DocumentId']; ?>"><?php echo htmlspecialchars($row['DocumentTitle']); ?></a></td>
+                                <td><a href="/?page=publication&id=<?php echo $row['DocumentId']; ?>" class="linktable"><?php echo htmlspecialchars($row['DocumentTitle']); ?></a></td>
                                 <td><?php echo htmlspecialchars($row['DocumentSummary']); ?></td>
                                 <td><?php echo htmlspecialchars($row['CollectionsName']); ?></td>
                                 <td><?php echo htmlspecialchars($row['AccessName']); ?></td>
@@ -55,13 +55,13 @@ require_once 'functions/show_author.inc.php';
                 <nav class="tableP">
                     <ul class="pagination">
                         <?php if ($pg > 1): ?>
-                            <li class="page-item"><a href="?page=show_author&id=<?= $id ?>&order=<?= $order ?>&pg=<?= $pg - 1; ?>" class="page-link">Anterior</a></li>
+                            <li class="page-item"><a href="?page=show_author&id=<?= $id ?>&order=<?= $order ?>&pg=<?= $pg - 1; ?>" class="page-link linktable">Anterior</a></li>
                         <?php endif; ?>
                         <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                            <li class="page-item"><a href="?page=show_author&id=<?= $id ?>&order=<?= $order ?>&pg=<?= $i; ?>" class="page-link"><?= $i; ?></a></li>
+                            <li class="page-item"><a href="?page=show_author&id=<?= $id ?>&order=<?= $order ?>&pg=<?= $i; ?>" class="page-link linktable"><?= $i; ?></a></li>
                         <?php endfor; ?>
                         <?php if ($pg < $total_pages): ?>
-                            <li class="page-item"><a href="?page=show_author&id=<?= $id ?>&order=<?= $order ?>&pg=<?= $pg + 1; ?>" class="page-link">Próxima</a></li>
+                            <li class="page-item"><a href="?page=show_author&id=<?= $id ?>&order=<?= $order ?>&pg=<?= $pg + 1; ?>" class="page-link linktable ">Próxima</a></li>
                         <?php endif; ?>
                     </ul>
                 </nav>
