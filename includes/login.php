@@ -3,10 +3,9 @@ require_once 'functions/config_session.inc.php';
 require_once 'views/login_view.inc.php';
 ?>
 <html>
-<div class="container">
-    <div class="p-5 my-4 bg-light rounded-3">
+<div class="container p-5 my-4 bg-light rounded-3">
+	<h2 class="pb-2 border-bottom h2title">Entrar no repositório</h2>
   		<div class="panel panel-primary">
-		<h2 class="pb-2 border-bottom">Entrar no repositório</h2>
     		<div class="row align-items-md-stretch">
       			<div class="col-md-6">
         			<div class="h-100 p-5 bg-light rounded-3">
@@ -60,6 +59,5 @@ require_once 'views/login_view.inc.php';
       		</div>
     	</div>
 	  </div>
-	</div>
 </div>
 </html>

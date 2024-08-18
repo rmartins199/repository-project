@@ -3,12 +3,13 @@
 require_once 'db.inc.php';
 require_once 'functions/config_session.inc.php';
 
-// Recebe a ordem selecionada pelo utilizador
-$order = isset($_GET['order']) && in_array($_GET['order'], ['ASC', 'DESC']) ? $_GET['order'] : 'ASC';
+// Recebe a ordem selecionada pelo utilizador ou por default DESC
+$order = isset($_GET['order']) && in_array($_GET['order'], ['ASC', 'DESC']) ? $_GET['order'] : 'DESC';
 
 // Configuração de paginação
 $results_per_page = 10;
 $pg = isset($_GET['pg']) && is_numeric($_GET['pg']) && $_GET['pg'] > 0 ? (int)$_GET['pg'] : 1;
+// Calcula o offset
 $offset = ($pg - 1) * $results_per_page;
 
 //Recebe ID do utilizador
@@ -31,7 +32,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $stmt->execute();
     $total_results = $stmt->fetchColumn();
 
-    // Calcular o número total de páginas
+    // Calcula o número total de páginas
     $total_pages = ceil($total_results / $results_per_page);
 
     try {

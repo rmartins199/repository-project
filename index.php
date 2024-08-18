@@ -33,16 +33,16 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 <!--		DEDICADO AO HEADER		-->
   <header>
 	  <!--		TOP MENU		-->
-    <div class="px-3 py-2 text-white imgheader">
+    <div class="px-3 py-2 imgheader">
       <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-          <a href="?page=home" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+          <a href="?page=home" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-decoration-none">
             <img class="img-responsive" src="assets/images/logo_ipmaia.png" alt="Repositório TIWM">
           </a>
 
           <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
             <li>
-              <a href="/" class="btn text-white">
+              <a href="/" class="btn">
                 Página principal
               </a>
             </li>
@@ -112,7 +112,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 	</div>
   </header>
 <!--	!!	 FIM DO HEADER	 !! 	-->
-<main class="flex-shrink-0">
+<main class="flex-shrink-0 maincss">
 	<?php loadPage($page); ?>
 </main>
 	<footer class="footer mt-auto px-3 py-2 imgfooter">

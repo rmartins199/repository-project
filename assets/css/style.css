@@ -14,18 +14,27 @@
 	border-top-right-radius: 12px;
 }
 
+/* Main */
+
+.maincss{
+	background-color: white;
+}
+
 /* Edição de botões e Links */
 .btn{
 	text-shadow: 2px 2px 4px #000000;
 	border-radius: 12px;
 	background: #343a40;
 	margin: 3px;
+	border-color: #343a40;
+	color: #FFFFFF;
 }
 
 .btn:hover {
 	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 	background: #6c757d;
 	cursor: pointer;
+	color: #FFFFFF;
 }
 
 /* CSS utilido nas tabelas*/
@@ -129,5 +138,13 @@ a.linktable:hover {
 }
 
 .h2title{
-	margin-bottom: 40px;
+	margin-bottom: 20px;
+}
+
+.browse_controls{
+	padding: 15px;
+	margin-bottom: 20px;
+	min-height: 15px;
+	background-color: white;
+	text-align: center;
 }

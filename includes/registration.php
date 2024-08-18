@@ -3,15 +3,14 @@ require_once 'functions/config_session.inc.php';
 require_once 'views/signup_view.inc.php';
 ?>
 <html>
-<div class="container">
-    <div class="p-5 my-4 bg-light rounded-3">
-		<h2 class="pb-2 border-bottom">Novo registo</h2>
-		</br>
-		<! FORMULARIO DE REGISTO !>
-		<?php
-		check_signup_errors();
-		?>
-        <form action="functions/register.inc.php" method="post" onsubmit="return validateForm();">
+<div class="container p-5 my-4 bg-light rounded-3">
+	<h2 class="pb-2 border-bottom h2title">Novo registo</h2>
+	<!-- FORMULARIO DE REGISTO -->
+	<?php
+	check_signup_errors();
+	?>
+    <form action="functions/register.inc.php" method="post" onsubmit="return validateForm();">
+		<!-- Primeiro e ultimo nome do Aluno/docente -->
 		<div class="row justify-content-center rowregister">
   			<div class="col-6 col-sm-4">
 				 <label for="first_name" class="form-label"><b>Primeiro nome:</b></label>
@@ -22,7 +21,7 @@ require_once 'views/signup_view.inc.php';
     			<input type="text" class="form-control" name="last_name" id="last_name" placeholder="Último nome">
   			</div>
 		</div>
-		<! LINHA DE EMAIL E NÚMERO DE DOCENTE/ALUNO !>
+		<!-- Email e número de aluno/docente -->
 		<div class="row justify-content-center rowregister">
 			<div class="col-6 col-sm-4">
 				<label for="email" class="form-label"><b>Endereço de correio eletrónico:</b></label>
@@ -34,6 +33,7 @@ require_once 'views/signup_view.inc.php';
     			<input type="text" class="form-control" name="user_number" id="user_number" placeholder="Preencher com número de aluno/docente">
   			</div>
 		</div>
+		<!-- Password e data de nascimento de aluno/docente -->
 		<div class="row justify-content-center rowregister">
   			<div class="col-6 col-sm-4">
 				<label for="passwordhash" class="form-label"><b>Inserir password:</b></label>
@@ -47,11 +47,10 @@ require_once 'views/signup_view.inc.php';
 		<row>
               <div class="col-6 col-sm-4 mx-auto">
                 <div class="d-grid">
-                  <button class="btn btn-lg text-white btn-register" data-toggle="button">Registar</button>
+                  <button class="btn btn-lg btn-register" data-toggle="button">Registar</button>
                 </div>
               </div>
 		</row>
 		</form>
-		</div>
     </div>
 </html>
