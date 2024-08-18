@@ -1,6 +1,10 @@
 <?php
 // Conecta a ficheiros externos (por exemplo base dados)
 require_once 'functions/show_author.inc.php';
+
+// É defenida uma chave de encriptação segura
+$key = "xAHgjhu32bE%!Mop7u%Ae7g7%V6Pv6oC"; // A chave deve ter 16, 24 ou 32 caracteres (neste caso é de 32)
+$method = "aes-256-cbc";
 ?>
 <html>
     <div class="container">
@@ -41,9 +45,13 @@ require_once 'functions/show_author.inc.php';
                     <tbody>
                         <?php foreach ($results as $row): ?>
                             <?php $PubDate = (new DateTime($row['PublicationDate']))->format('Y-m-d'); ?>
+							<?php // Supondo que $document_id é o ID do documento
+									$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
+									$encrypted_id = openssl_encrypt($row['DocumentId'], $method, $key, 0, $iv);
+									$encrypted_id = base64_encode($encrypted_id . '::' . $iv); ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($PubDate); ?></td>
-                                <td><a href="/?page=publication&id=<?php echo $row['DocumentId']; ?>" class="linktable"><?php echo htmlspecialchars($row['DocumentTitle']); ?></a></td>
+                                <td><a href="/?page=publication&id=<?php echo urlencode($encrypted_id); ?>" class="linktable"><?php echo htmlspecialchars($row['DocumentTitle']); ?></a></td>
                                 <td><?php echo htmlspecialchars($row['DocumentSummary']); ?></td>
                                 <td><?php echo htmlspecialchars($row['CollectionsName']); ?></td>
                                 <td><?php echo htmlspecialchars($row['AccessName']); ?></td>
