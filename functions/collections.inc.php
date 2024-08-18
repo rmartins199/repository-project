@@ -2,18 +2,22 @@
 // Conecta a ficheiros externos (por exemplo base dados)
 require_once 'db.inc.php';
 
-// Número de resultados por página
-$results_per_page = 10;
+// Recebe ordenação escolhida pelo utilizador e define por default Descendente
+$order = isset($_GET['order']) && in_array($_GET['order'], ['ASC', 'DESC']) ? $_GET['order'] : 'DESC';
+// Recebe número maximo de resultados por pagina pelo utilizador
+$per_page = isset($_GET['per_page']) && in_array($_GET['per_page'], ['5', '10', '20', '50']) ? $_GET['per_page'] : '10';
+
+// Configuração de paginação
+$results_per_page = $per_page;
 
 // Determina a página atual
-$page = isset($_GET['pg']) ? (int)$_GET['pg'] : 1;
-if ($page < 1) $page = 1;
+$pg = isset($_GET['pg']) && is_numeric($_GET['pg']) && $_GET['pg'] > 0 ? (int)$_GET['pg'] : 1;
 
 // Calcula o offset
-$offset = ($page - 1) * $results_per_page;
+$offset = ($pg - 1) * $results_per_page;
 
 // Obtém o número total de resultados
-$total_query = "SELECT COUNT(DISTINCT UserID) FROM document";
+$total_query = "SELECT COUNT(DISTINCT collections_CollectionsID) FROM document";
 $total_stmt = $pdo->prepare($total_query);
 $total_stmt->execute();
 $total_results = $total_stmt->fetchColumn();
@@ -31,6 +35,7 @@ $collection_query = "
     	GROUP BY CollectionsID
 		) c ON d.collections_CollectionsID = c.CollectionsID
 		GROUP BY c.CollectionsID
+		ORDER BY c.CollectionsName $order
 		LIMIT :limit OFFSET :offset";
 		$stmt = $pdo->prepare($collection_query);
 		// Bind dos parâmetros

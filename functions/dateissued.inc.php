@@ -2,15 +2,17 @@
 // Conecta a ficheiros externos (por exemplo base dados)
 require_once 'db.inc.php';
 
-// Número de resultados por página
-$results_per_page = 10;
+// Recebe ordenação escolhida pelo utilizador e define por default Descendente
+$order = isset($_GET['order']) && in_array($_GET['order'], ['ASC', 'DESC']) ? $_GET['order'] : 'DESC';
+// Recebe número maximo de resultados por pagina pelo utilizador
+$per_page = isset($_GET['per_page']) && in_array($_GET['per_page'], ['5', '10', '20', '50']) ? $_GET['per_page'] : '10';
 
-// Determina a página atual
-$page = isset($_GET['pg']) ? (int)$_GET['pg'] : 1;
-if ($page < 1) $page = 1;
+// Configuração de paginação
+$results_per_page = $per_page;
+$pg = isset($_GET['pg']) && is_numeric($_GET['pg']) && $_GET['pg'] > 0 ? (int)$_GET['pg'] : 1;
 
 // Calcula o offset
-$offset = ($page - 1) * $results_per_page;
+$offset = ($pg - 1) * $results_per_page;
 
 // Obtém o número total de resultados
 $total_query = "SELECT COUNT(*) FROM document";
@@ -21,7 +23,7 @@ $total_results = $total_stmt->fetchColumn();
 // Calcula o número total de páginas
 $total_pages = ceil($total_results / $results_per_page);
 
-// Obtém os dados dos relatorios publicados e ordenados por data DESC
+// Obtém os dados dos relatorios publicados e ordenados por data
 $query = "
         SELECT document.DocumentId, document.PublicationDate, 
 		document.DocumentTitle, `DocumentSummary`, 
@@ -32,7 +34,7 @@ $query = "
 		INNER JOIN useraccount ON useraccount.userLogin_UserID = document.UserID
 		INNER JOIN documentaccess ON documentaccess.AccessID = document.documentAccess_AccessID
 		INNER JOIN collections ON collections.CollectionsID = document.collections_CollectionsID
-		ORDER BY document.PublicationDate DESC
+		ORDER BY document.PublicationDate $order
 		LIMIT :limit OFFSET :offset";
 
 		$stmt = $pdo->prepare($query);

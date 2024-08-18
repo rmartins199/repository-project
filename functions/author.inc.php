@@ -3,12 +3,15 @@
 require_once 'db.inc.php';
 require_once 'functions/config_session.inc.php';
 
-// Recebe a ordem e a letra selecionada pelo utilizador
-$order = isset($_GET['order']) && in_array($_GET['order'], ['ASC', 'DESC']) ? $_GET['order'] : 'ASC';
+// Recebe ordenação escolhida pelo utilizador e define por default Descendente
+$order = isset($_GET['order']) && in_array($_GET['order'], ['ASC', 'DESC']) ? $_GET['order'] : 'DESC';
+// Recebe letra inicial escolhida pelo utilizador pelo qual começa o nome do autor
 $letter = isset($_GET['letter']) ? $_GET['letter'] : '';
+// Recebe número maximo de resultados por pagina pelo utilizador
+$per_page = isset($_GET['per_page']) && in_array($_GET['per_page'], ['5', '10', '20', '50']) ? $_GET['per_page'] : '10';
 
 // Configuração de paginação
-$results_per_page = 10;
+$results_per_page = $per_page;
 $pg = isset($_GET['pg']) && is_numeric($_GET['pg']) && $_GET['pg'] > 0 ? (int)$_GET['pg'] : 1;
 $offset = ($pg - 1) * $results_per_page;
 
