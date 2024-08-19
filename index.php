@@ -4,7 +4,7 @@ require_once 'functions/config_session.inc.php';
 
 // Função para carregar a página solicitada
 function loadPage($page) {
-    $allowed_pages = ['home', 'login', 'registration', 'collections', 'dateissued', 'author', 'publication', 'logged', 'publish', 'my_publish', 'edit_publication' ,'edit_publish', 'show_author', 'show_collections'];
+    $allowed_pages = ['home', 'login', 'registration', 'collections', 'dateissued', 'author', 'publication', 'logged', 'publish', 'my_publish', 'edit_publication', 'show_author', 'show_collections'];
     if (in_array($page, $allowed_pages)) {
         include __DIR__ . '/includes/' . $page . '.php';
     } else {
