@@ -54,14 +54,14 @@ $method = "aes-256-cbc";
 				foreach ($results as $row) {
 						$PublicationDateTime = new DateTime($row['PublicationDate']);
         				$PubDate = $PublicationDateTime->format('Y-m-d');
-						// Supondo que $document_id é o ID do documento
+						// Encripta DocumentId
 						$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
 						$encrypted_id = openssl_encrypt($row['DocumentId'], $method, $key, 0, $iv);
 						$encrypted_id = base64_encode($encrypted_id . '::' . $iv);
 				?>     
             		<tr>
 						<td><?php echo htmlspecialchars($PubDate); ?></td>
-						<td><a href="/?page=show_author&id=<?php echo $row['UserID']; ?>" class="linktable"><?php echo $row['UserFName'], " ", $row['UserLName']; ?></a></td>
+						<td><?php echo $row['UserFName'], " ", $row['UserLName']; ?></td>
             			<td><a href="/?page=publication&id=<?php echo urlencode($encrypted_id); ?>" class="linktable"><?php echo htmlspecialchars($row['DocumentTitle']); ?></a></td>
 						<td><?php echo htmlspecialchars($row['DocumentSummary']); ?></td>
             			<td><?php echo htmlspecialchars($row['CollectionsName']); ?></td>

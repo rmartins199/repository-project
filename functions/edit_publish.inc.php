@@ -8,6 +8,10 @@ if(!isset($_SESSION['user_id'])){
     header("Location:/?page=login");
 }
 
+// Define a mesma chave de encriptação e método usados na encriptação
+$key = "xAHgjhu32bE%!Mop7u%Ae7g7%V6Pv6oC";
+$method = "aes-256-cbc";
+
 // Função para obter o estado do documento
 function get_document_status($doc_id, $pdo) {
     // Consulta SQL para obter o estado do documento pelo seu ID
@@ -27,12 +31,14 @@ function formatFileSize($size) {
     }
 }
 
-//Recebe ID do relátorio publicado
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $id = (int) $_GET['id'];
+// Obtém o ID do relatório publicado
+if (isset($_GET['id'])) {
+    $encrypted_id = $_GET['id'];
+    list($encrypted_data, $iv) = explode('::', base64_decode($encrypted_id), 2);
+    $PublishId = openssl_decrypt($encrypted_data, $method, $key, 0, $iv);
 	
     // Obtém o status do documento e armazena em uma variável
-    $doc_status = get_document_status($id, $pdo);
+    $doc_status = get_document_status($PublishId, $pdo);
 
     // Variável para armazenar mensagem de estado do documento
     $status_message = "";
@@ -60,7 +66,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 		
 		$stmt = $pdo->prepare($query_publication);
 		// Bind dos parâmetros
-		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+		$stmt->bindParam(':id', $PublishId, PDO::PARAM_INT);
 		$stmt->execute();
 		$documento = $stmt->fetch(PDO::FETCH_ASSOC);
 		
@@ -69,7 +75,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         $formattedSize = formatFileSize($fileSize);
 		
 		// Supondo que $document_id contém o ID do documento a ser editado
-		$_SESSION['DocumentId'] = $id;
+		$_SESSION['DocumentId'] = $PublishId;
 		
 	    if ($documento) {
         	$state = $documento['StateName'];

@@ -1,5 +1,9 @@
 <?php
 require_once 'functions/author.inc.php';
+
+// É defenida uma chave de encriptação segura
+$key = "RgCPvRNnwNDwt8$9NqXmd8jZYJ&SheWG"; // A chave deve ter 16, 24 ou 32 caracteres (neste caso é de 32)
+$method = "aes-256-cbc";
 ?>
 <html>
 	<div class="container p-5 my-4 bg-light rounded-3">
@@ -44,9 +48,13 @@ require_once 'functions/author.inc.php';
 		</div>
 			<?php 
 				foreach ($results as $row):
+						// Encripta userLogin_UserID
+						$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
+						$encrypted_userid = openssl_encrypt($row['userLogin_UserID'], $method, $key, 0, $iv);
+						$encrypted_userid = base64_encode($encrypted_userid . '::' . $iv);
 			?>
   			<ul class="list-group list-group-flush list-group-item">
-    			<li class="list-group-item"><a href="/?page=show_author&id=<?php echo $row['userLogin_UserID']; ?>" class="linktable"><?php echo $row['UserFName'], " ", $row['UserLName']; ?>
+    			<li class="list-group-item"><a href="/?page=show_author&id=<?php echo urlencode($encrypted_userid); ?>" class="linktable"><?php echo $row['UserFName'], " ", $row['UserLName']; ?>
 				<span class="badge rounded-pill bg-secondary float-end"><?php echo $row['Total']; ?></span>
 				</li>
   			</ul>

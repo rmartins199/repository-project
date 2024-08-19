@@ -3,18 +3,26 @@
 require_once 'db.inc.php';
 require_once 'functions/config_session.inc.php';
 
+// É defenida uma chave de encriptação segura
+$key = "RgCPvRNnwNDwt8$9NqXmd8jZYJ&SheWG"; // A chave deve ter 16, 24 ou 32 caracteres (neste caso é de 32)
+$method = "aes-256-cbc";
+
 // Recebe a ordem selecionada pelo utilizador ou por default DESC
 $order = isset($_GET['order']) && in_array($_GET['order'], ['ASC', 'DESC']) ? $_GET['order'] : 'DESC';
+// Recebe número maximo de resultados por pagina pelo utilizador
+$per_page = isset($_GET['per_page']) && in_array($_GET['per_page'], ['5', '10', '20', '50']) ? $_GET['per_page'] : '10';
 
 // Configuração de paginação
-$results_per_page = 10;
+$results_per_page = $per_page;
 $pg = isset($_GET['pg']) && is_numeric($_GET['pg']) && $_GET['pg'] > 0 ? (int)$_GET['pg'] : 1;
 // Calcula o offset
 $offset = ($pg - 1) * $results_per_page;
 
 //Recebe ID do utilizador
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $id = (int) $_GET['id'];
+if (isset($_GET['id'])) {
+    $encrypted_userid = $_GET['id'];
+    list($encrypted_data, $iv) = explode('::', base64_decode($encrypted_userid), 2);
+    $id = openssl_decrypt($encrypted_data, $method, $key, 0, $iv);
 
     // Query para contar o número total de resultados
     $count_query = "
