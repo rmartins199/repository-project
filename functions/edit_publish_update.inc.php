@@ -19,6 +19,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$state_id = $_POST["StateID"];
 
     	try {
+			
+		require_once '../controllers/doc_update_controller.inc.php';
+		
+		// CONTROLADOR DE ERROS		
+		$errors = [];
+		
+		if (is_input_empty($documentTitle, $documentWordkey, $documentSummary, $documentDescription, $collectionsId, $access_id, $state_id)){
+			$errors["empty_input"] = "Preenche todos os campos!";
+		}
+			
+		if (validate_title($documentTitle)){
+			$errors["title_invalid"] = "Caracteres proibidos à serem utilizados no titulo!";
+		}
+		
+		if (validate_title($documentWordkey)){
+			$errors["workey_invalid"] = "Caracteres proibidos à serem utilizados nas palavras-chave!";
+		}
+		
+		if (validate_title($documentSummary)){
+			$errors["summary_invalid"] = "Caracteres proibidos à serem utilizados no sumário!";
+		}
+
+		if (validate_title($documentDescription)){
+			$errors["description_invalid"] = "Caracteres proibidos à serem utilizados na descrição!";
+		}
+		
+		if ($errors){
+			$_SESSION["errors_update"] = $errors;
+
+			header("Location: /?page=edit_publication&id=$document_id");
+			exit(); // Certifica que após o redirecionamento, interrompe a execução do script
+		}
         	// Verifique se o relatório está em estado "aberto"
         	$query = "SELECT documentState_StateID FROM document WHERE DocumentId = :id";
         	$stmt = $pdo->prepare($query);
@@ -47,13 +79,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$update_stmt->bindParam(':state_id', $state_id, PDO::PARAM_INT);
 				$update_stmt->bindParam(':document_id', $document_id, PDO::PARAM_INT);
             	$update_stmt->execute();
+				
+				// É defenida uma chave de encriptação segura
+				$key = "xAHgjhu32bE%!Mop7u%Ae7g7%V6Pv6oC"; // A chave deve ter 16, 24 ou 32 caracteres (neste caso é de 32)
+				$method = "aes-256-cbc";
+				// Supondo que $document_id é o ID do documento
+				$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
+				$encrypted_id = openssl_encrypt($document_id, $method, $key, 0, $iv);
+				$encrypted_id = base64_encode($encrypted_id . '::' . $iv);
 
             	// Redirecione após a atualização
-            	header("Location:/?page=edit_publication&id=$document_id&update=success");
+            	header("Location:/?page=edit_publication&id=$encrypted_id&update=success");
             	die();
 			
         	} else {
-            	echo "Publicação encontra-se fechada, não é possivel ser editado.";
+            	echo "Publicação encontra-se fechada, não é possivel ser editada.";
         	}
     	} catch (PDOException $e) {
         	echo 'Erro: ' . $e->getMessage();

@@ -1,10 +1,14 @@
 <?php
 require_once 'functions/edit_publish.inc.php';
+require_once 'views/update_view.inc.php';
 ?>
 <html>
 	<div class="container p-5 my-4 bg-light rounded-3"> 
     	<h2 class="pb-2 border-bottom h2title">Editar relatorio</h2>
 		<form action="functions/edit_publish_update.inc.php" method="post">
+		<?php
+			check_update_errors();
+			?>
 			<div class="table-responsive">
         	<table class="table unstriped table-hover">	
           		<thead>
