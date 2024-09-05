@@ -9,7 +9,7 @@ $method = "aes-256-cbc";
 // É defenida uma chave de encriptação segura para o id do utilizador
 $key_user = "RgCPvRNnwNDwt8$9NqXmd8jZYJ&SheWG"; // A chave deve ter 16, 24 ou 32 caracteres (neste caso é de 32)
 $method_user = "aes-256-cbc";
-// Encripta userLogin_UserID
+// Encripta UserID
 $iv_user = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method_user));
 $encrypted_userid = openssl_encrypt($id, $method_user, $key_user, 0, $iv_user);
 $encrypted_userid = base64_encode($encrypted_userid . '::' . $iv_user);
@@ -74,7 +74,7 @@ $encrypted_userid = base64_encode($encrypted_userid . '::' . $iv_user);
                                 <td><?php echo htmlspecialchars($PubDate); ?></td>
                                 <td><a href="/?page=publication&id=<?php echo urlencode($encrypted_id); ?>" class="linktable"><?php echo htmlspecialchars($row['DocumentTitle']); ?></a></td>
                                 <td><?php echo htmlspecialchars($row['DocumentSummary']); ?></td>
-                                <td><?php echo htmlspecialchars($row['CollectionsName']); ?></td>
+                                <td><?php echo htmlspecialchars($row['CollectionName']); ?></td>
                                 <td><?php echo htmlspecialchars($row['AccessName']); ?></td>
                             </tr>
                         <?php endforeach; ?>

@@ -1,5 +1,5 @@
 <?php
-// Conecta a ficheiros externos (por exemplo base dados)
+// Conecta a ficheiros externos (por exemplo conexão a base dados)
 require_once 'db.inc.php';
 require_once 'config_session.inc.php';
 
@@ -64,9 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         					DocumentWordKey = :documentWordkey, 
         					DocumentSummary = :documentSummary, 
         					DocumentDescription = :documentDescription, 
-        					collections_CollectionsID = :collectionsId, 
-        					documentAccess_AccessID = :access_id, 
-        					documentState_StateID = :state_id 
+        					collection_CollectionID = :collectionsId, 
+        					document_access_AccessID = :access_id, 
+        					document_state_StateID = :state_id 
         					WHERE DocumentId = :document_id";
             	$update_stmt = $pdo->prepare($update_query);
 				// Bind dos parâmetros

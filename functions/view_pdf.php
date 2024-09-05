@@ -14,7 +14,7 @@ if (isset($_GET['id'])) {
 if (is_numeric($fileid)) {
 
     	// Consulta o documento
-    	$sql = "SELECT FileName, FilePath, FileType FROM documentfile WHERE FileID = :FileID";
+    	$sql = "SELECT FileName, FilePath, FileType FROM document_file WHERE FileID = :FileID";
     	$stmt = $pdo->prepare($sql);
     	$stmt->bindParam(':FileID', $fileid, PDO::PARAM_INT);
     	$stmt->execute();

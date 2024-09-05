@@ -9,7 +9,7 @@ if(!isset($_SESSION['user_id'])){ //if login in session is not set
 <html>
 <div class="container">
     		<div class="p-5 my-4 bg-light rounded-3">
-				<h2 class="pb-2 border-bottom">Publicar relatorio</h2>
+				<h2 class="pb-2 border-bottom h2title">Publicar relatorio</h2>
 				<?php
 					check_upload_errors();
 				?>
@@ -33,7 +33,7 @@ if(!isset($_SESSION['user_id'])){ //if login in session is not set
     						<input type="text" class="form-control" name="DocumentDescription" id="DocumentDescription" placeholder="Descrição!">
   						</div>
   						<div class="col-6 col-sm-8">
-				 			<label for="DocumentFile" class="form-label"><b>Upload relatorio:</b></label>
+				 			<label for="DocumentFile" class="form-label"><b>Upload relatório:</b></label>
     						<input type="file" name="file" class="form-control" accept=".pdf" title="Upload PDF"/>
   						</div>
 						<hr style="width:65%;text-align:left;margin-bottom: 20px;margin-top: 20px">
@@ -41,7 +41,7 @@ if(!isset($_SESSION['user_id'])){ //if login in session is not set
 							<label for="CollectionsID" class="form-label"><b>Tipo de relatorio:</b></label>
 				 			<select class="form-select" name="CollectionsID" aria-label="Default select example">
   								<option value="1">Relatorio de estágio</option>
-  								<option value="2">Relatorio de projecto</option>
+  								<option value="2">Relatorio de projeto</option>
 							</select>
   						</div>
 						<hr style="width:65%;text-align:left;margin-bottom: 20px;margin-top: 20px">
@@ -50,6 +50,7 @@ if(!isset($_SESSION['user_id'])){ //if login in session is not set
 				 			<select class="form-select" name="AccessID" aria-label="Default select example">
   								<option value="1">Publico</option>
   								<option value="2">Restrito</option>
+								<option value="3">Fechado</option>
 							</select>
   						</div>
 						<hr style="width:65%;text-align:left;margin-bottom: 20px;margin-top: 20px">

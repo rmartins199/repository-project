@@ -17,7 +17,7 @@ $pg = isset($_GET['pg']) && is_numeric($_GET['pg']) && $_GET['pg'] > 0 ? (int)$_
 $offset = ($pg - 1) * $results_per_page;
 
 // Obtém o número total de resultados
-$total_query = "SELECT COUNT(DISTINCT collections_CollectionsID) FROM document";
+$total_query = "SELECT COUNT(DISTINCT collection_CollectionID) FROM document";
 $total_stmt = $pdo->prepare($total_query);
 $total_stmt->execute();
 $total_results = $total_stmt->fetchColumn();
@@ -27,15 +27,15 @@ $total_pages = ceil($total_results / $results_per_page);
 
 // Obtém os dados dos relatorios publicados e ordenados por data DESC
 $collection_query = "
-        SELECT d.collections_CollectionsID,c.CollectionsName, COUNT(c.CollectionsID) AS Total
+        SELECT d.collection_CollectionID,c.CollectionName, COUNT(c.CollectionID) AS Total
 		FROM document d
 		INNER JOIN (
-    	SELECT CollectionsID, CollectionsName, COUNT(*) AS Total
-    	FROM collections
-    	GROUP BY CollectionsID
-		) c ON d.collections_CollectionsID = c.CollectionsID
-		GROUP BY c.CollectionsID
-		ORDER BY c.CollectionsName $order
+    	SELECT CollectionID, CollectionName, COUNT(*) AS Total
+    	FROM collection
+    	GROUP BY CollectionID
+		) c ON d.collection_CollectionID = c.CollectionID
+		GROUP BY c.CollectionID
+		ORDER BY c.CollectionName $order
 		LIMIT :limit OFFSET :offset";
 		$stmt = $pdo->prepare($collection_query);
 		// Bind dos parâmetros

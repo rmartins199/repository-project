@@ -37,7 +37,8 @@ require_once 'views/update_view.inc.php';
 					<tr>
 						<td width="30%">Tipo de relatorio:</td>
 						<td>
-							<select class="" name="CollectionsID" aria-label="Default select example">
+							<select class="select" name="CollectionsID" aria-label="Collection select" required>
+								<option value="" selected disabled hidden>Escolher tipo de relatório!</option>
   								<option value="1">Relatorio de estágio</option>
   								<option value="2">Relatorio de projecto</option>
 							</select>
@@ -46,7 +47,8 @@ require_once 'views/update_view.inc.php';
 					<tr>
 						<td width="30%">Acesso:</td>
 						<td>
-							<select class="" name="AccessID" aria-label="Default select example">
+							<select class="select" name="AccessID" aria-label="Access select" required>
+								<option value="" selected disabled hidden>Escolher acesso ao documento!</option>
   								<option value="1">Publico</option>
   								<option value="2">Restrito</option>
 							</select>
@@ -55,7 +57,8 @@ require_once 'views/update_view.inc.php';
 					<tr>
 						<td width="30%">Estado:</td>
 						<td>
-							<select class="" name="StateID" aria-label="Default select example">
+							<select class="select" name="StateID" aria-label="State select" required>
+								<option value="" selected disabled hidden>Escolher estado do documento!</option>
   								<option value="1">Aberto</option>
   								<option value="2">Fechado</option>
 							</select>

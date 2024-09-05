@@ -13,7 +13,7 @@ require_once 'functions/profile.php';
         				<div>
           					<h2>Editar perfil</h2>
           					<p>É possivel alterar os dados de acesso por exemplo, nome, email, data de nascimento e password da conta.</p>
-          					<a href="#" class="btn btn-primary">Editar perfil</a>
+          					<a href="/?page=edit_perfil" class="btn btn-primary">Editar perfil</a>
         				</div>
       				</div>
       				<div class="col d-flex align-items-start">

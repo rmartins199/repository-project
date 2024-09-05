@@ -50,7 +50,7 @@ $method = "aes-256-cbc";
 				foreach ($results as $row):
 						// Encripta userLogin_UserID
 						$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($method));
-						$encrypted_userid = openssl_encrypt($row['userLogin_UserID'], $method, $key, 0, $iv);
+						$encrypted_userid = openssl_encrypt($row['UserID'], $method, $key, 0, $iv);
 						$encrypted_userid = base64_encode($encrypted_userid . '::' . $iv);
 			?>
   			<ul class="list-group list-group-flush list-group-item">

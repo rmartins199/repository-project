@@ -2,6 +2,7 @@
 
 if($_SERVER["REQUEST_METHOD"] === "POST"){
 	
+	
 	require_once 'db.inc.php';
 	
 	$email = $_POST["email"];
@@ -9,8 +10,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 	$first_name = $_POST["first_name"];
 	$last_name = $_POST["last_name"];
 	$user_number_str = $_POST["user_number"];
-	/* NECESSARIO CORRIGIR, NÃO INSERE DATA */
-	$dateb = trim($_POST['dateb']);
+	$dateb = $_POST['dateb'];
 	$user_number = (int)$user_number_str;
 	
 	try{
@@ -20,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 		// CONTROLADOR DE ERROS		
 		$errors = [];
 		
-		if (is_input_empty($email, $passwordhash, $first_name, $last_name, $user_number, $dateb)){
+		if (is_input_empty($email, $passwordhash, $first_name, $last_name, $dateb, $user_number)){
 			$errors["empty_input"] = "Preenche todos os campos.";
 		}
 		if (is_email_invalid($email)){
@@ -45,7 +45,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 			exit(); // Certifica que após o redirecionamento, interrompe a execução do script
 		}
 		
-		create_user($pdo, $email, $passwordhash, $first_name, $last_name, $user_number, $dateb);
+		create_user($pdo, $email, $passwordhash, $first_name, $last_name, $dateb, $user_number);
 		
 		header("Location:/?page=registration&signup=success");
 		

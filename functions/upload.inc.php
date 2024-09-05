@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 
         // Move o arquivo para o diretório de uploads
         if (move_uploaded_file($fileTmpPath, $destPath)) {
-            $query = "INSERT INTO document (DocumentTitle, DocumentWordKey, DocumentSummary, DocumentDescription, UserID, collections_CollectionsID, documentAccess_AccessID, documentState_StateID) 
+            $query = "INSERT INTO document (DocumentTitle, DocumentWordKey, DocumentSummary, DocumentDescription, user_account_UserID, collection_CollectionID, document_Access_AccessID, document_State_StateID) 
                 VALUES (:document_title, :document_wordkey, :document_summary, :document_description, :id_login, :collections_id, :access_id, :state_id)";
             $stmt = $pdo->prepare($query);
             // CONVERSÃO DE VARIAVEIS
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
             $id_document = $pdo->lastInsertId();
 
             // Prepara a consulta SQL para inserir o caminho do arquivo
-            $sql = "INSERT INTO documentfile (FileID, FileName, FilePath, FileType, FileSize) 
+            $sql = "INSERT INTO document_file (FileID, FileName, FilePath, FileType, FileSize) 
                 VALUES (:id_document, :nome, :caminho, :tipo, :tamanho)";
             $stmt = $pdo->prepare($sql);
 

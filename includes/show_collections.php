@@ -11,9 +11,9 @@ $method = "aes-256-cbc";
         <div class="p-5 my-4 bg-light rounded-3">
             <?php if (!empty($results)): ?>
                 <?php foreach ($results as $result): ?>
-                    <?php if (!in_array($result['CollectionsName'], $unique_names)): ?>
-                        <h2 class="pb-2 border-bottom h2title"><?php echo htmlspecialchars($result['CollectionsName']); ?></h2>
-                    <?php $unique_names[] = $result['CollectionsName']; ?>
+                    <?php if (!in_array($result['CollectionName'], $unique_names)): ?>
+                        <h2 class="pb-2 border-bottom h2title"><?php echo htmlspecialchars($result['CollectionName']); ?></h2>
+                    <?php $unique_names[] = $result['CollectionName']; ?>
                	<?php endif; ?>
             <?php endforeach; ?>
 			<div id="browse_controls" class="AFiltro">

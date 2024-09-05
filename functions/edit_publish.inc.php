@@ -15,7 +15,7 @@ $method = "aes-256-cbc";
 // Função para obter o estado do documento
 function get_document_status($doc_id, $pdo) {
     // Consulta SQL para obter o estado do documento pelo seu ID
-    $stmt = $pdo->prepare("SELECT documentState_StateID FROM document WHERE DocumentId = :id");
+    $stmt = $pdo->prepare("SELECT document_state_StateID FROM document WHERE DocumentId = :id");
     $stmt->execute([':id' => $doc_id]);
     return $stmt->fetchColumn(); // Retorna o estado do documento
 }
@@ -50,18 +50,19 @@ if (isset($_GET['id'])) {
 	
 	try{
 		$query_publication = "
-        SELECT useraccount.UserFName, useraccount.UserLName, 
+        SELECT user_account.UserFName, user_account.UserLName, 
 		document.DocumentTitle, document.DocumentWordKey, 
 		document.DocumentSummary, document.DocumentDescription, 
-		documentstate.StateName, collections.CollectionsName, 
-		documentfile.FileID, documentfile.FileName, 
-		documentfile.FileSize, documentfile.FileType,
-		document.DocumentId
+		document_state.StateName, collection.CollectionName, 
+		document_file.FileID, document_file.FileName, 
+		document_file.FileSize, document_file.FileType,
+		document_access.AccessName, document.DocumentId
 		FROM document
-		INNER JOIN useraccount ON useraccount.userLogin_UserID = document.UserID
-		INNER JOIN documentstate ON documentstate.StateID = document.documentState_StateID
-		INNER JOIN collections ON collections.CollectionsID = document.collections_CollectionsID
-		INNER JOIN documentfile ON documentfile.FileID = document.DocumentId
+		INNER JOIN user_account ON user_account.UserID = document.user_account_UserID 
+		INNER JOIN document_state ON document_state.StateID = document.document_state_StateID
+		INNER JOIN collection ON collection.CollectionID = document.collection_CollectionID
+		INNER JOIN document_access ON document_access.AccessID = document.document_access_AccessID
+		INNER JOIN document_file ON document_file.FileID = document.DocumentId
 		WHERE document.DocumentId = :id ";
 		
 		$stmt = $pdo->prepare($query_publication);

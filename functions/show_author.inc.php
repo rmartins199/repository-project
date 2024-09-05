@@ -29,10 +29,10 @@ if (isset($_GET['id'])) {
         SELECT COUNT(DISTINCT d.DocumentId) AS total
         FROM document d
         INNER JOIN (
-            SELECT userLogin_UserID, UserFName, UserLName
-            FROM useraccount
-        ) u ON d.UserID = u.userLogin_UserID
-        WHERE u.userLogin_UserID = :id ";
+            SELECT UserID, UserFName, UserLName
+            FROM user_account
+        ) u ON d.user_account_UserID = u.UserID
+        WHERE u.UserID = :id ";
 
     $stmt = $pdo->prepare($count_query);
     // Bind dos parâmetros
@@ -45,12 +45,14 @@ if (isset($_GET['id'])) {
 
     try {
         $query_user = "
-        SELECT useraccount.UserFName, useraccount.UserLName, document.DocumentId, document.DocumentTitle, document.DocumentWordKey, document.PublicationDate, document.DocumentSummary, document.DocumentDescription, document.UserID, document.collections_CollectionsID, document.documentAccess_AccessID, collections.CollectionsName, documentaccess.AccessName
-        FROM useraccount
-        INNER JOIN document ON document.UserID = useraccount.userLogin_UserID
-        INNER JOIN documentaccess ON documentaccess.AccessID = document.documentAccess_AccessID
-        INNER JOIN collections ON collections.CollectionsID = document.collections_CollectionsID
-        WHERE useraccount.userLogin_UserID = :id 
+        SELECT user_account.UserFName, user_account.UserLName, document.DocumentId, document.DocumentTitle, document.DocumentWordKey, document.PublicationDate, 
+        document.DocumentSummary, document.DocumentDescription, document.user_account_UserID , document.collection_CollectionID, document.document_access_AccessID, 
+        collection.CollectionName, document_access.AccessName
+        FROM user_account
+        INNER JOIN document ON document.user_account_UserID  = user_account.UserID
+        INNER JOIN document_access ON document_access.AccessID = document.document_access_AccessID
+        INNER JOIN collection ON collection.CollectionID = document.collection_CollectionID
+        WHERE user_account.UserID = :id 
         ORDER BY document.PublicationDate $order
         LIMIT :offset, :results_per_page";
 

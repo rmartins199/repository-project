@@ -37,7 +37,7 @@ $method = "aes-256-cbc";
 					<td><?php echo htmlspecialchars($PubDate); ?></td>
             		<td><a href="/?page=edit_publication&id=<?php echo urlencode($encrypted_id); ?>" class="linktable"><?php echo htmlspecialchars($row['DocumentTitle']); ?></a></td> 
 					<td><?php echo htmlspecialchars($row['DocumentSummary']); ?></td>    
-            		<td><?php echo htmlspecialchars($row['CollectionsName']); ?></td>
+            		<td><?php echo htmlspecialchars($row['CollectionName']); ?></td>
 					<td><?php echo htmlspecialchars($row['StateName']); ?></td>
             	</tr>     
             <?php     

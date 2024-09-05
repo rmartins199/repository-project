@@ -19,7 +19,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $count_query = "
         SELECT COUNT(DISTINCT d.DocumentId) AS total
   		FROM document d
-        WHERE collections_CollectionsID = :id ";
+        WHERE collection_CollectionID = :id ";
 
     $stmt = $pdo->prepare($count_query);
     // Bind dos parâmetros
@@ -32,13 +32,13 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
     try {
         $query_collections = "
-        SELECT `DocumentId`,`PublicationDate`,useraccount.UserFName, useraccount.UserLName, `DocumentTitle`, `DocumentSummary`, documentstate.StateName, documentaccess.AccessName, collections.CollectionsName
-		FROM `document` 
-		INNER JOIN useraccount ON useraccount.userLogin_UserID = document.UserID
-		INNER JOIN collections ON collections.CollectionsID = document.collections_CollectionsID
-		INNER JOIN documentaccess ON documentaccess.AccessID = document.documentAccess_AccessID
-		INNER JOIN documentstate ON documentstate.StateID = document.documentState_StateID
-		WHERE collections_CollectionsID = :id 
+        SELECT document.DocumentId, document.PublicationDate, user_account.UserFName, user_account.UserLName, document.DocumentTitle, document.DocumentSummary, document_state.StateName, document_access.AccessName, collection.CollectionName
+		FROM document 
+		INNER JOIN user_account ON user_account.UserID = document.user_account_UserID
+		INNER JOIN collection ON collection.CollectionID = document.collection_CollectionID
+		INNER JOIN document_access ON document_access.AccessID = document.document_Access_AccessID
+		INNER JOIN document_state ON document_state.StateID = document.document_State_StateID
+		WHERE collection_CollectionID = :id 
         ORDER BY document.PublicationDate $order
         LIMIT :offset, :results_per_page";
 

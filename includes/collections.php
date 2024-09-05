@@ -36,27 +36,27 @@ require_once 'functions/collections.inc.php';
 			foreach ($collection_results as $row):
 			?>
   				<ul class="list-group list-group-flush list-group-item">
-    				<li class="list-group-item"><a href="/?page=show_collections&id=<?php echo $row['collections_CollectionsID']; ?>" class="linktable"><?php echo htmlspecialchars($row['CollectionsName']); ?>
+    				<li class="list-group-item"><a href="/?page=show_collections&id=<?php echo $row['collection_CollectionID']; ?>" class="linktable"><?php echo htmlspecialchars($row['CollectionName']); ?>
 					<span class="badge rounded-pill bg-secondary float-end"><?php echo htmlspecialchars($row['Total']); ?></span>
 					</li>
   				</ul>
 			<?php endforeach; ?>
         <!-- Navegação de Paginação -->
         <nav class="tableP">
-        	<ul class="pagination">
+        	<ul class="list-group list-group-horizontal">
 			<?php if ($pg > 1): ?>
-  				<li class="page-item">
-					<a href="?page=collections&order=<?= $order ?>&per_page=<?= $per_page ?>&pg=<?= $pg - 1; ?>" class="page-link">Anterior</a>
+  				<li class="list-group-item">
+					<a href="?page=collections&order=<?= $order ?>&per_page=<?= $per_page ?>&pg=<?= $pg - 1; ?>" class="linktable">Anterior</a>
 				</li>
 			<?php endif; ?>
 			<?php for ($i = 1; $i <= $total_pages; $i++): ?>
-  				<li class="page-item">
-					<a href="?page=collections&order=<?= $order ?>&per_page=<?= $per_page ?>&pg=<?= $i; ?>" class="page-link"><?= $i; ?></a>
+  				<li class="list-group-item">
+					<a href="?page=collections&order=<?= $order ?>&per_page=<?= $per_page ?>&pg=<?= $i; ?>" class="linktable"><?= $i; ?></a>
 				</li>
 			<?php endfor; ?>
 			<?php if ($pg < $total_pages): ?>
-  				<li class="page-item">
-					<a href="?page=collections&order=<?= $order ?>&per_page=<?= $per_page ?>&pg=<?= $pg + 1; ?>" class="page-link">Próxima</a>
+  				<li class="list-group-item">
+					<a href="?page=collections&order=<?= $order ?>&per_page=<?= $per_page ?>&pg=<?= $pg + 1; ?>" class="linktable">Próxima</a>
 				</li>
 			<?php endif; ?>
         	</ul>

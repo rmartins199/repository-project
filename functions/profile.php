@@ -13,9 +13,8 @@ $userId = $_SESSION['user_id'];
 
 // Consulta de SQL para selecionar informações do aluno
 $sql = 'SELECT * 
-		FROM useraccount 
-		WHERE userLogin_UserID = :user_id';
-
+		FROM user_account
+		WHERE UserID= :user_id';
 try {
     $stmt = $pdo->prepare($sql);
 	// Bind dos parâmetros

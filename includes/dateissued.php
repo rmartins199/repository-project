@@ -64,7 +64,7 @@ $method = "aes-256-cbc";
 						<td><?php echo $row['UserFName'], " ", $row['UserLName']; ?></td>
             			<td><a href="/?page=publication&id=<?php echo urlencode($encrypted_id); ?>" class="linktable"><?php echo htmlspecialchars($row['DocumentTitle']); ?></a></td>
 						<td><?php echo htmlspecialchars($row['DocumentSummary']); ?></td>
-            			<td><?php echo htmlspecialchars($row['CollectionsName']); ?></td>
+            			<td><?php echo htmlspecialchars($row['CollectionName']); ?></td>
 						<td><?php echo htmlspecialchars($row['AccessName']); ?></td>
             		</tr>     
             	<?php }; ?>

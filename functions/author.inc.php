@@ -17,12 +17,12 @@ $offset = ($pg - 1) * $results_per_page;
 
 // Query para contar o número total de resultados
 $count_query = "
-        SELECT COUNT(DISTINCT u.userLogin_UserID) AS total
+        SELECT COUNT(DISTINCT u.UserID) AS total
         FROM document d
         INNER JOIN (
-            SELECT userLogin_UserID, UserFName, UserLName
-            FROM useraccount
-        ) u ON d.UserID = u.userLogin_UserID
+            SELECT UserID , UserFName, UserLName
+            FROM user_account
+        ) u ON d.user_account_UserID = u.UserID
         WHERE (:letter = '' OR u.UserFName LIKE :letterPattern)";
 
 $stmt = $pdo->prepare($count_query);
@@ -36,15 +36,15 @@ $total_pages = ceil($total_results / $results_per_page);
 
 // Query SQL com ordenação e filtro de letra inicial
 $author_query = "
-        SELECT u.userLogin_UserID, u.UserFName, u.UserLName, COUNT(d.UserID) AS Total
+        SELECT u.UserID, u.UserFName, u.UserLName, COUNT(d.user_account_UserID ) AS Total
         FROM document d
         INNER JOIN (
-            SELECT userLogin_UserID, UserFName, UserLName, COUNT(*) AS Total
-            FROM useraccount
-            GROUP BY userLogin_UserID
-        ) u ON d.UserID = u.userLogin_UserID
+            SELECT UserID, UserFName, UserLName, COUNT(*) AS Total
+            FROM user_account
+            GROUP BY UserID
+        ) u ON d.user_account_UserID  = u.UserID
         WHERE (:letter = '' OR u.UserFName LIKE :letterPattern)
-        GROUP BY u.userLogin_UserID
+        GROUP BY u.UserID
         ORDER BY Total $order
         LIMIT :limit OFFSET :offset";
 

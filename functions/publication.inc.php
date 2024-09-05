@@ -6,12 +6,12 @@ require_once 'db.inc.php';
 $key = "xAHgjhu32bE%!Mop7u%Ae7g7%V6Pv6oC";
 $method = "aes-256-cbc";
 
-// Função para obter o estado do documento
-function get_document_status($doc_id, $pdo) {
-    // Consulta SQL para obter o estado do documento pelo seu ID
-    $stmt = $pdo->prepare("SELECT documentAccess_AccessID FROM document WHERE DocumentId = :id");
+// Função que obtém o nível de acesso e o ID do autor do documento
+function get_document_info($doc_id, $pdo) {
+    // Consulta SQL para obter o nível de acesso e o ID do autor do documento pelo ID do documento
+    $stmt = $pdo->prepare("SELECT user_account_UserID, document_access_AccessID FROM document WHERE DocumentId = :id");
     $stmt->execute([':id' => $doc_id]);
-    return $stmt->fetchColumn(); // Retorna o estado do documento
+    return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna um array associativo com o estado do documento e o ID do autor
 }
 
 // Função de conversão do valor recebido da base de dados para MB/KB/bytes
@@ -31,29 +31,61 @@ if (isset($_GET['id'])) {
     list($encrypted_data, $iv) = explode('::', base64_decode($encrypted_id), 2);
     $PublishId = openssl_decrypt($encrypted_data, $method, $key, 0, $iv);
 
-    // Obtenha o status do documento e armazene em uma variável
-    $doc_status = get_document_status($PublishId, $pdo);
+    // Obtém as informações do documento e armazena em variáveis
+    $document_info = get_document_info($PublishId, $pdo);
 
-    // Verifica se o estado é igual a 2 (fechado) e redirecione se necessário
-    if ($doc_status == 2) {
-        // Se o status for 2, enviar mensagem e redirecionar
-        $previous_page = $_SERVER['HTTP_REFERER'] ?? 'index.php'; // Padrão caso HTTP_REFERER não esteja definido
+    // Exemplo de valores de $doc_status:
+    // 1 = Todos os alunos e/ou docentes tem acesso (Público)
+    // 2 = Apenas alunos e/ou docentes registados tem acesso (Restrito)
+    // 3 = Fechado (Apenas autor consegue visualizar publicação)
+
+    $previous_page = $_SERVER['HTTP_REFERER'] ?? '/?page=home'; // Página anterior ou índice padrão
+
+    if ($document_info) {
+        $doc_status = $document_info['document_access_AccessID']; // Nível de acesso do documento
+        $publisher_id = $document_info['user_account_UserID'];    // ID do autor do documento
+
+    // Recupera ID do utilizador logado atraves do $_SESSION
+    $user_id = $_SESSION['user_id'] ?? null; // ID do utilizador logado, se houver
+
+    // Verifica o nível de acesso e o ID do utilizador
+    if ($doc_status == 3) { // Acesso fechado (Apenas Autor)
+        if ($user_id !== $publisher_id) {
+            echo "<script>
+                    alert('Este documento está fechado e só pode ser aberto pelo autor.');
+                    window.location.href = '$previous_page';
+                  </script>";
+            exit();
+        }
+    } elseif ($doc_status == 2) { // Necessita de Login (restrito)
+        if (empty($user_id)) { // Verifica se o utilizador não está logado
+            echo "<script>
+                    alert('Este documento está restrito, é necessário efetuar login para ser aberto.');
+                    window.location.href = '$previous_page';
+                  </script>";
+            exit();
+        }
+    }
+    // Se $doc_status for 1 ou as condições anteriores forem satisfeitas, o relatorio é acessível
+    } else {
         echo "<script>
-                alert('Este documento está fechado e não pode ser visualizado.');
+                alert('Documento não encontrado.');
                 window.location.href = '$previous_page';
-              </script>";
+            </script>";
         exit();
     }
 
     // Consulta de SQL para selecionar informação do relatorio publicado
     if (is_numeric($PublishId)) {
         $query_publication = "
-        SELECT useraccount.UserFName, useraccount.UserLName, document.DocumentTitle, document.DocumentWordKey, document.PublicationDate, document.DocumentSummary, document.DocumentDescription, documentstate.StateName, collections.CollectionsName, documentfile.FileID, documentfile.FileName, documentfile.FileSize, documentfile.FileType
+        SELECT user_account.UserFName, user_account.UserLName, document.DocumentTitle, document.DocumentWordKey, document.PublicationDate, document.DocumentSummary, 
+                document.DocumentDescription, document_state.StateName, collection.CollectionName, document_file.FileID, document_file.FileName, document_file.FileSize,
+                document_file.FileType
         FROM document
-        INNER JOIN useraccount ON useraccount.userLogin_UserID = document.UserID
-        INNER JOIN documentstate ON documentstate.StateID = document.documentState_StateID
-        INNER JOIN collections ON collections.CollectionsID = document.collections_CollectionsID
-        INNER JOIN documentfile ON documentfile.FileID = document.DocumentId
+        INNER JOIN user_account ON user_account.UserID = document.user_account_UserID 
+        INNER JOIN document_state ON document_state.StateID = document.document_state_StateID
+        INNER JOIN collection ON collection.CollectionID = document.collection_CollectionID
+        INNER JOIN document_file ON document_file.FileID = document.DocumentId 
         WHERE document.DocumentId = :id ";
         
         $stmt = $pdo->prepare($query_publication);

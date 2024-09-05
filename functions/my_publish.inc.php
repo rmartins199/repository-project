@@ -22,7 +22,7 @@ $offset = ($page - 1) * $results_per_page;
 
 // Obtém o número total de resultados
 $total_query = "SELECT COUNT(*) FROM document
-				WHERE UserID = :user_id ";
+				WHERE user_account_UserID  = :user_id ";
 $total_stmt = $pdo->prepare($total_query);
 $total_stmt->execute(['user_id' => $userId]);
 $total_results = $total_stmt->fetchColumn();
@@ -32,11 +32,11 @@ $total_pages = ceil($total_results / $results_per_page);
 
 // Obtém os resultados por autor
 try {
-    $query ="SELECT document.DocumentId, document.PublicationDate, document.DocumentTitle, document.DocumentSummary, documentstate.StateName, collections.CollectionsName
+    $query ="SELECT document.DocumentId, document.PublicationDate, document.DocumentTitle, document.DocumentSummary, document_state.StateName, collection.CollectionName
 			FROM document
-			INNER JOIN documentstate ON documentstate.StateID = document.documentState_StateID
-			INNER JOIN collections ON collections.CollectionsID = document.collections_CollectionsID
-			WHERE UserID = :user_id
+			INNER JOIN document_state ON document_state.StateID = document.document_state_StateID
+			INNER JOIN collection ON collection.CollectionID = document.collection_CollectionID
+			WHERE user_account_UserID = :user_id
 			LIMIT :limit OFFSET :offset";
     $stmt = $pdo->prepare($query);
 	// Bind dos parâmetros
